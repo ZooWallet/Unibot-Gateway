@@ -1,0 +1,21 @@
+allowedSlippage: "200"
+
+contractAddresses:
+  mumbai:
+    balanceVault: "0x600101663A7Ed7d24f2d9ef5589837a1755dA9D3"
+    helper: "0x79a2E369A4AEC13092a07F3681cc2F3f3329142f"
+    pairs:
+      WMATIC-DERC20-0_05%:
+        factory: "0xe0911898D30f469A3d471d2f535eB66579641517"
+        wantToken: "0xfe4F5145f6e09952a5ba9e956ED0C25e3Fa4c7F1"
+        borrowToken: "0x9c3C9283D3e44854697Cd22D3Faa240Cfb032889"
+        isWantToken0: false
+  arbitrum_one:
+    balanceVault: "0x8610d60f5329b0560c8f0ceb80175f342fe943f3"
+    helper: "0x1011092bec3f94b8f80e1b4965c8f53789ec184f"
+    pairs:
+      USDC-WETH-0_05%:
+        factory: "0xCAD7DaF7517Fe80B93C8938eAdf3156a68873C53"
+        wantToken: "0xff970a61a04b1ca14834a43f5de4533ebddb5cc8"
+        borrowToken: "0x82af49447d8a07e3bd95bd0d56f35241523fbab1"
+        isWantToken0: false

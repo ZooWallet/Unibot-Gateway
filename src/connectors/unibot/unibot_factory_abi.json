@@ -1,0 +1,1422 @@
+{
+  "_format": "hh-sol-artifact-1",
+  "contractName": "DiamondFactoryV3",
+  "sourceName": "contracts/v3/contracts/DiamondFactoryV3.sol",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_wantToken",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "_borrowToken",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_openPositionMaximumAmount",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_openPositionMinimumAmount",
+          "type": "uint256"
+        },
+        {
+          "internalType": "address",
+          "name": "_uniswapPool",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "_lendingPool",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "_controller",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_stopLossFee",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_linearApproximationMultiplier",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "account",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "positionId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "_borrowId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "startWantAmount",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "reserveWantAmount",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "endWantAmount",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "int24",
+          "name": "closePriceTick",
+          "type": "int24"
+        }
+      ],
+      "name": "ClosePosition",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "account",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "positionId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "fee",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "performanceFee",
+          "type": "uint256"
+        }
+      ],
+      "name": "CollectFee",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "account",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "Deposit",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "account",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "positionId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "_borrowId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "startWantAmount",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "reserveWantAmount",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "endWantAmount",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "int24",
+          "name": "closePriceTick",
+          "type": "int24"
+        }
+      ],
+      "name": "Liquidate",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "account",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "positionId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "_borrowId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "startWantAmount",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "reserveWantAmount",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "int24",
+          "name": "startPriceTick",
+          "type": "int24"
+        }
+      ],
+      "name": "OpenPosition",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "previousOwner",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "OwnershipTransferred",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "account",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "positionId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "wantTokenFee",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "borrowTokenFee",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "wantTokenAmount",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "borrowTokenAmount",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "timestamp",
+          "type": "uint256"
+        }
+      ],
+      "name": "Referral",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "account",
+          "type": "address"
+        }
+      ],
+      "name": "SetController",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "account",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "bool",
+          "name": "state",
+          "type": "bool"
+        }
+      ],
+      "name": "SetEmergencyState",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "account",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "positionId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "_borrowId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "startWantAmount",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "reserveWantAmount",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "endWantAmount",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "int24",
+          "name": "closePriceTick",
+          "type": "int24"
+        }
+      ],
+      "name": "StopLoss",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "account",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "Withdraw",
+      "type": "event"
+    },
+    {
+      "inputs": [],
+      "name": "BPS",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "DENOMINATION_MULTIPLIER",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "MAX_TICK",
+      "outputs": [
+        {
+          "internalType": "int24",
+          "name": "",
+          "type": "int24"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "MIN_TICK",
+      "outputs": [
+        {
+          "internalType": "int24",
+          "name": "",
+          "type": "int24"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "UNISWAP_ROUTER",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "UNI_POSITION_MANAGER",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_amount",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_positionId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bytes32[]",
+          "name": "_proof",
+          "type": "bytes32[]"
+        }
+      ],
+      "name": "addCollateral",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "borrowRatioMax",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "borrowRatioMin",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "borrowToken",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_positionId",
+          "type": "uint256"
+        }
+      ],
+      "name": "canLiquidate",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "canLiquidate",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_positionId",
+          "type": "uint256"
+        }
+      ],
+      "name": "canStopLoss",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "canStopLoss",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_positionId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "int24",
+          "name": "_spotPriceTick",
+          "type": "int24"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_slippage",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bytes32[]",
+          "name": "_proof",
+          "type": "bytes32[]"
+        }
+      ],
+      "name": "closePosition",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_positionId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "int24",
+          "name": "_spotPriceTick",
+          "type": "int24"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_slippage",
+          "type": "uint256"
+        }
+      ],
+      "name": "collectFee",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "controller",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_amount",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_positionId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bytes32[]",
+          "name": "_proof",
+          "type": "bytes32[]"
+        }
+      ],
+      "name": "decreaseCollateral",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_account",
+          "type": "address"
+        }
+      ],
+      "name": "getAccountPositionIds",
+      "outputs": [
+        {
+          "internalType": "uint256[]",
+          "name": "",
+          "type": "uint256[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_positionId",
+          "type": "uint256"
+        }
+      ],
+      "name": "getHealthFactor",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getLatestPrice",
+      "outputs": [
+        {
+          "internalType": "int24",
+          "name": "latestTick",
+          "type": "int24"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_wantToken",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "_borrowToken",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_openPositionMaximumAmount",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_openPositionMinimumAmount",
+          "type": "uint256"
+        },
+        {
+          "internalType": "address",
+          "name": "_uniswapPool",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "_lendingPool",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "_controller",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_stopLossFee",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_linearApproximationMultiplier",
+          "type": "uint256"
+        }
+      ],
+      "name": "init",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "isEmergency",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "lendingPool",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "linearApproximationMultiplier",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_account",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_positionId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "int24",
+          "name": "_spotPriceTick",
+          "type": "int24"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_slippage",
+          "type": "uint256"
+        }
+      ],
+      "name": "liquidate",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "liquidationThreshold",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint256",
+              "name": "wantTokenAmount",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "borrowRatio",
+              "type": "uint256"
+            },
+            {
+              "internalType": "int24",
+              "name": "spotPriceTick",
+              "type": "int24"
+            },
+            {
+              "internalType": "uint256",
+              "name": "slippage",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "reserveRatio",
+              "type": "uint256"
+            },
+            {
+              "internalType": "int24",
+              "name": "stopLossUpperPriceTick",
+              "type": "int24"
+            },
+            {
+              "internalType": "int24",
+              "name": "stopLossLowerPriceTick",
+              "type": "int24"
+            },
+            {
+              "internalType": "int24",
+              "name": "tickRange",
+              "type": "int24"
+            },
+            {
+              "internalType": "uint256",
+              "name": "amount0Min",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "amount1Min",
+              "type": "uint256"
+            }
+          ],
+          "internalType": "struct StrategyParams",
+          "name": "_strategyParams",
+          "type": "tuple"
+        },
+        {
+          "internalType": "bytes32[]",
+          "name": "_proof",
+          "type": "bytes32[]"
+        }
+      ],
+      "name": "openPosition",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "openPositionMaximumAmount",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "openPositionMinimumAmount",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "oracleTimeWeightedSec",
+      "outputs": [
+        {
+          "internalType": "uint32",
+          "name": "",
+          "type": "uint32"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "owner",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "positions",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "positionId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "address",
+          "name": "owner",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "borrowId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "wantTokenAmountAtStart",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "reserveAmountAtStart",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "positionCreateTimestamp",
+          "type": "uint256"
+        },
+        {
+          "internalType": "int24",
+          "name": "startPriceTick",
+          "type": "int24"
+        },
+        {
+          "internalType": "uint256",
+          "name": "borrowRatio",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "reserveAmount",
+          "type": "uint256"
+        },
+        {
+          "internalType": "int24",
+          "name": "stopLossUpperPriceTick",
+          "type": "int24"
+        },
+        {
+          "internalType": "int24",
+          "name": "stopLossLowerPriceTick",
+          "type": "int24"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "renounceOwnership",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "reserveRatioMax",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_borrowRatioMax",
+          "type": "uint256"
+        }
+      ],
+      "name": "setBorrowRatioMax",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_borrowRatioMin",
+          "type": "uint256"
+        }
+      ],
+      "name": "setBorrowRatioMin",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_controller",
+          "type": "address"
+        }
+      ],
+      "name": "setController",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bool",
+          "name": "_isEmergency",
+          "type": "bool"
+        }
+      ],
+      "name": "setEmergencyState",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_linearApproximationMultiplier",
+          "type": "uint256"
+        }
+      ],
+      "name": "setLinearApproximationMultiplier",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_liquidationThreshold",
+          "type": "uint256"
+        }
+      ],
+      "name": "setLiquidationThreshold",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_openPositionMaximumAmount",
+          "type": "uint256"
+        }
+      ],
+      "name": "setOpenPositionMaximumAmount",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_openPositionMinimumAmount",
+          "type": "uint256"
+        }
+      ],
+      "name": "setOpenPositionMinimumAmount",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint32",
+          "name": "_oracleTimeWeightedSec",
+          "type": "uint32"
+        }
+      ],
+      "name": "setOracleTimeWeightedSec",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_reserveRatioMax",
+          "type": "uint256"
+        }
+      ],
+      "name": "setReserveRatioMax",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_fee",
+          "type": "uint256"
+        }
+      ],
+      "name": "setStopLossFee",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_account",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_positionId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "int24",
+          "name": "_spotPriceTick",
+          "type": "int24"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_slippage",
+          "type": "uint256"
+        }
+      ],
+      "name": "stopLoss",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "stopLossFee",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_token",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "sweep",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "tickSpacing",
+      "outputs": [
+        {
+          "internalType": "int24",
+          "name": "",
+          "type": "int24"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "totalPositions",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "transferOwnership",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "uniFee",
+      "outputs": [
+        {
+          "internalType": "uint24",
+          "name": "",
+          "type": "uint24"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "uniswapPool",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_positionId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "int24",
+          "name": "_stopLossUpperPriceTick",
+          "type": "int24"
+        },
+        {
+          "internalType": "int24",
+          "name": "_stopLossLowerPriceTick",
+          "type": "int24"
+        },
+        {
+          "internalType": "bytes32[]",
+          "name": "_proof",
+          "type": "bytes32[]"
+        }
+      ],
+      "name": "updateStopLossPrice",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "userPositionIds",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "wantToken",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "wantTokenIsToken0",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ]
+}

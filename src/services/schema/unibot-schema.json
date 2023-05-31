@@ -1,0 +1,44 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "allowedSlippage": { "type": "string" },
+    "contractAddresses": {
+      "type": "object",
+      "patternProperties": {
+        "^\\w+$": {
+          "type": "object",
+          "properties": {
+            "balanceVault": {"type": "string"},
+            "helper": {"type": "string"},
+            "pairs": { 
+              "type": "object",
+              "patternProperties": {
+                "^.+$": {
+                  "type": "object",
+                  "properties": {
+                    "factory": {"type": "string"},
+                    "wantToken": {"type": "string"},
+                    "borrowToken": {"type": "string"},
+                    "isWantToken0": {"type": "boolean"}
+                  }
+                }
+              }
+            }
+          },
+          "required": [
+            "balanceVault",
+            "helper",
+            "pairs"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "contractAddresses"
+  ]
+}

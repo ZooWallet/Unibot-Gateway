@@ -39,3 +39,7 @@ configurations:
   $namespace uniswap:
     configurationPath: uniswap.yml
     schemaPath: uniswap-schema.json
+
+  $namespace unibot:
+    configurationPath: unibot.yml
+    schemaPath: unibot-schema.json

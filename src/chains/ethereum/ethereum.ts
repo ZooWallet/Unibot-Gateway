@@ -191,6 +191,10 @@ export class Ethereum extends EthereumBase implements Ethereumish {
       spender = OpenoceanConfig.config.routerAddress('ethereum', this._chain);
     } else if (reqSpender === 'zigzag') {
       spender = ZigZagConfig.config.contractAddress(this._chain);
+    } else if (reqSpender === 'unibot') {
+      spender = ConfigManagerV2.getInstance().get(
+        `unibot.contractAddresses.${this._chain}.balanceVault`
+      );
     } else {
       spender = reqSpender;
     }

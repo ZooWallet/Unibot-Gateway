@@ -1,0 +1,214 @@
+{
+  "_format": "hh-sol-artifact-1",
+  "contractName": "DiamondFactoryHelper",
+  "sourceName": "contracts/v3/helpers/DiamondFactoryHelper.sol",
+  "abi": [
+    {
+      "inputs": [],
+      "name": "BPS",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "UNI_POSITION_MANAGER",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_wantToken",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "_borrowToken",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_wantTokenBalance",
+          "type": "uint256"
+        },
+        {
+          "internalType": "int24",
+          "name": "_tick",
+          "type": "int24"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_borrowRatio",
+          "type": "uint256"
+        }
+      ],
+      "name": "calculateBorrowAmount",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "quoteAmount",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "borrowAmount",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_borrower",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "_wantToken",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "_borrowToken",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "_uniswapPool",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "_lendingPool",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_borrowId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint32",
+          "name": "_oracleTimeWeightedSec",
+          "type": "uint32"
+        }
+      ],
+      "name": "getDebtValueMeasuredInWantToken",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "debtValue",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_uniswapPool",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_positionId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bool",
+          "name": "_wantTokenIsToken0",
+          "type": "bool"
+        }
+      ],
+      "name": "getPositionTokenAmount",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "wantTokenAmount",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "borrowTokenAmount",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "wantTokenFee",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "borrowTokenFee",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_wantToken",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "_borrowToken",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "_uniswapPool",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_positionId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bool",
+          "name": "_wantTokenIsToken0",
+          "type": "bool"
+        },
+        {
+          "internalType": "uint32",
+          "name": "_oracleTimeWeightedSec",
+          "type": "uint32"
+        }
+      ],
+      "name": "getPositionValueMeasuredInWantToken",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "positionValue",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ]
+}

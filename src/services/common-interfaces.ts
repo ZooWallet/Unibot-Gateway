@@ -800,3 +800,47 @@ export interface CustomTransactionResponse
   gasLimit: string;
   value: string;
 }
+
+export interface Unibotish {
+  init(): Promise<void>;
+
+  ready(): boolean;
+
+  getLatestPrice(pair: string): Promise<any>;
+
+  estimateBuyTrade(
+    wallet: Wallet,
+    pair: string,
+    amount: BigNumber,
+    stopLossPercent: BigNumber
+  ): Promise<any>;
+
+  estimateSellTrade(wallet: Wallet, pair: string): Promise<any>;
+
+  getPositions(
+    pair: string,
+    walletAddress: string,
+    positionIndex: bigint
+  ): Promise<any>;
+
+  openPosition(
+    wallet: Wallet,
+    pair: string,
+    wantTokenAmount: BigNumber,
+    borrowRatio: BigNumber,
+    spotPriceTick: BigNumber,
+    slippage: BigNumber,
+    reserveRatio: BigNumber,
+    stopLossUpperPriceTick: BigNumber,
+    stopLossLowerPriceTick: BigNumber,
+    tickRange: BigNumber
+  ): Promise<Transaction>;
+
+  closePosition(
+    wallet: Wallet,
+    pair: string,
+    _positionId: BigNumber,
+    _spotPriceTick: BigNumber,
+    _slippage: BigNumber
+  ): Promise<Transaction>;
+}

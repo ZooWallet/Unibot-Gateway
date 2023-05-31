@@ -1,0 +1,491 @@
+{
+  "_format": "hh-sol-artifact-1",
+  "contractName": "DiamondAggregator",
+  "sourceName": "contracts/v3/helpers/DiamondAggregator.sol",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_owner",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "_controller",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "previousOwner",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "OwnershipTransferred",
+      "type": "event"
+    },
+    {
+      "inputs": [],
+      "name": "controller",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_factory",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_positionId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint32",
+          "name": "_oracleTimeWeightedSec",
+          "type": "uint32"
+        }
+      ],
+      "name": "getAllPositionInfo",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "canStopLoss",
+          "type": "bool"
+        },
+        {
+          "internalType": "uint256",
+          "name": "healthFactor",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "borrowAmount",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "positionValueMeasuredInWantToken",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "debtValueMeasuredInWantToken",
+          "type": "uint256"
+        },
+        {
+          "internalType": "int24",
+          "name": "tickLower",
+          "type": "int24"
+        },
+        {
+          "internalType": "int24",
+          "name": "tickUpper",
+          "type": "int24"
+        },
+        {
+          "components": [
+            {
+              "internalType": "uint256",
+              "name": "wantTokenAmount",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "borrowTokenAmount",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "wantTokenFee",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "borrowTokenFee",
+              "type": "uint256"
+            }
+          ],
+          "internalType": "struct DiamondAggregator.PositionTokenAmount",
+          "name": "positionTokenAmount",
+          "type": "tuple"
+        },
+        {
+          "components": [
+            {
+              "internalType": "uint256",
+              "name": "positionId",
+              "type": "uint256"
+            },
+            {
+              "internalType": "address",
+              "name": "owner",
+              "type": "address"
+            },
+            {
+              "internalType": "uint256",
+              "name": "borrowId",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "wantTokenAmountAtStart",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "reserveAmountAtStart",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "positionCreateTimestamp",
+              "type": "uint256"
+            },
+            {
+              "internalType": "int24",
+              "name": "startPriceTick",
+              "type": "int24"
+            },
+            {
+              "internalType": "uint256",
+              "name": "borrowRatio",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "reserveAmount",
+              "type": "uint256"
+            },
+            {
+              "internalType": "int24",
+              "name": "stopLossUpperPriceTick",
+              "type": "int24"
+            },
+            {
+              "internalType": "int24",
+              "name": "stopLossLowerPriceTick",
+              "type": "int24"
+            }
+          ],
+          "internalType": "struct Positions.Position",
+          "name": "position",
+          "type": "tuple"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_factory",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_borrowId",
+          "type": "uint256"
+        }
+      ],
+      "name": "getBorrowAmount",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "borrowAmount",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_factory",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_positionId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_borrowId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint32",
+          "name": "_oracleTimeWeightedSec",
+          "type": "uint32"
+        }
+      ],
+      "name": "getDebtValueMeasuredInWantToken",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "debtValueMeasuredInWantToken",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_factory",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_positionId",
+          "type": "uint256"
+        }
+      ],
+      "name": "getPosition",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint256",
+              "name": "positionId",
+              "type": "uint256"
+            },
+            {
+              "internalType": "address",
+              "name": "owner",
+              "type": "address"
+            },
+            {
+              "internalType": "uint256",
+              "name": "borrowId",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "wantTokenAmountAtStart",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "reserveAmountAtStart",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "positionCreateTimestamp",
+              "type": "uint256"
+            },
+            {
+              "internalType": "int24",
+              "name": "startPriceTick",
+              "type": "int24"
+            },
+            {
+              "internalType": "uint256",
+              "name": "borrowRatio",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "reserveAmount",
+              "type": "uint256"
+            },
+            {
+              "internalType": "int24",
+              "name": "stopLossUpperPriceTick",
+              "type": "int24"
+            },
+            {
+              "internalType": "int24",
+              "name": "stopLossLowerPriceTick",
+              "type": "int24"
+            }
+          ],
+          "internalType": "struct Positions.Position",
+          "name": "",
+          "type": "tuple"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_positionId",
+          "type": "uint256"
+        }
+      ],
+      "name": "getPositionRange",
+      "outputs": [
+        {
+          "internalType": "int24",
+          "name": "tickLower",
+          "type": "int24"
+        },
+        {
+          "internalType": "int24",
+          "name": "tickUpper",
+          "type": "int24"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_factory",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_positionId",
+          "type": "uint256"
+        }
+      ],
+      "name": "getPositionTokenAmount",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint256",
+              "name": "wantTokenAmount",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "borrowTokenAmount",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "wantTokenFee",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "borrowTokenFee",
+              "type": "uint256"
+            }
+          ],
+          "internalType": "struct DiamondAggregator.PositionTokenAmount",
+          "name": "positionTokenAmount",
+          "type": "tuple"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_factory",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_positionId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint32",
+          "name": "_oracleTimeWeightedSec",
+          "type": "uint32"
+        }
+      ],
+      "name": "getPositionValueMeasuredInWantToken",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "positionValueMeasuredInWantToken",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "owner",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "renounceOwnership",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_controller",
+          "type": "address"
+        }
+      ],
+      "name": "setController",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "transferOwnership",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "bytecode": "0x0",
+  "deployedBytecode": "0x0",
+  "linkReferences": {},
+  "deployedLinkReferences": {}
+}

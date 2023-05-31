@@ -20,6 +20,7 @@ import { XsswapConfig } from './xsswap/xsswap.config';
 import { ConnectorsResponse } from './connectors.request';
 import { DexalotCLOBConfig } from './dexalot/dexalot.clob.config';
 import { ZigZagConfig } from './zigzag/zigzag.config';
+import { UnibotConfig } from './unibot/unibot.config';
 
 export namespace ConnectorsRoutes {
   export const router = Router();
@@ -138,6 +139,11 @@ export namespace ConnectorsRoutes {
             name: 'zigzag',
             trading_type: ZigZagConfig.config.tradingTypes,
             available_networks: ZigZagConfig.config.availableNetworks,
+          },
+          {
+            name: 'unibot',
+            trading_type: UnibotConfig.config.tradingTypes,
+            available_networks: UnibotConfig.config.availableNetworks,
           },
         ],
       });
