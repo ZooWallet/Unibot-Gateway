@@ -32,6 +32,12 @@ networks:
     tokenListType: FILE
     tokenListSource: src/chains/ethereum/erc20_tokens_goerli.json
     nativeCurrencySymbol: ETH
+  mumbai:
+    chainID: 80001
+    nodeURL: https://rpc.ankr.com/polygon_mumbai
+    tokenListType: FILE
+    tokenListSource: src/chains/polygon/polygon_tokens_mumbai.json
+    nativeCurrencySymbol: MATIC
 
 # if you use the gas assumptions below, your wallet needs >0.1 ETH balance for gas
 gasLimitTransaction: 3000000
