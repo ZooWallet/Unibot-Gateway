@@ -21,3 +21,13 @@ contractAddresses:
         wantToken: "0xff970a61a04b1ca14834a43f5de4533ebddb5cc8"
         borrowToken: "0x82af49447d8a07e3bd95bd0d56f35241523fbab1"
         isWantToken0: false
+  bsc:
+    balanceVault: "0xd576be0d3cc1c0184d1ea3f1778a4a9dec523859"
+    aggregator: "0x8fcf6179a89a13e06092c41b63bfe4d5ddf7274e"
+    helper: "0x5dfee62c78a0e607cce6a5d4458c328a03275ba2"
+    pairs:
+      USDT-CAKE-0_25%:
+        factory: "0x61De30d8367e852eF13494e19fde9F97198E2Fc9"
+        wantToken: "0x55d398326f99059ff775485246999027b3197955"
+        borrowToken: "0x0e09fabb73bd3ade0a17ecc321fd13a19e81ce82"
+        isWantToken0: false

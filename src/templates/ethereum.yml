@@ -38,6 +38,12 @@ networks:
     tokenListType: FILE
     tokenListSource: src/chains/polygon/polygon_tokens_mumbai.json
     nativeCurrencySymbol: MATIC
+  bsc:
+    chainID: 56
+    nodeURL: https://bsc-dataseed1.binance.org
+    tokenListType: FILE
+    tokenListSource: src/chains/ethereum/erc20_tokens_bsc.json
+    nativeCurrencySymbol: MATIC
 
 # if you use the gas assumptions below, your wallet needs >0.1 ETH balance for gas
 gasLimitTransaction: 3000000

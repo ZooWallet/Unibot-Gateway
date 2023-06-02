@@ -1,0 +1,23 @@
+{
+  "name": "bsc",
+  "tokens": [
+    {
+      "symbol": "USDT",
+      "chainId": 56,
+      "address": "0x55d398326f99059ff775485246999027b3197955",
+      "decimals": 18
+    },
+    {
+      "symbol": "CAKE",
+      "chainId": 56,
+      "address": "0x0e09fabb73bd3ade0a17ecc321fd13a19e81ce82",
+      "decimals": 18
+    },
+    {
+      "symbol": "WBNB",
+      "chainId": 56,
+      "address": "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
+      "decimals": 18
+    }
+  ]
+}
