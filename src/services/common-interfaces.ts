@@ -806,6 +806,8 @@ export interface Unibotish {
 
   ready(): boolean;
 
+  getWallet(address: string): Promise<Wallet>;
+
   getLatestPrice(pair: string): Promise<any>;
 
   estimateBuyTrade(
@@ -815,7 +817,11 @@ export interface Unibotish {
     stopLossPercent: BigNumber
   ): Promise<any>;
 
-  estimateSellTrade(wallet: Wallet, pair: string): Promise<any>;
+  estimateSellTrade(
+    wallet: Wallet,
+    pair: string,
+    positionId?: BigNumber
+  ): Promise<any>;
 
   getPositions(
     pair: string,

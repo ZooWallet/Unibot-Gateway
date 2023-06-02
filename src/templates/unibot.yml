@@ -3,6 +3,7 @@ allowedSlippage: "200"
 contractAddresses:
   mumbai:
     balanceVault: "0x600101663A7Ed7d24f2d9ef5589837a1755dA9D3"
+    aggregator: "0xa18e3b7190ac78c258e5ea339431966297428f6b"
     helper: "0x79a2E369A4AEC13092a07F3681cc2F3f3329142f"
     pairs:
       WMATIC-DERC20-0_05%:
@@ -12,6 +13,7 @@ contractAddresses:
         isWantToken0: false
   arbitrum_one:
     balanceVault: "0x8610d60f5329b0560c8f0ceb80175f342fe943f3"
+    aggregator: "0xe2a0bd0be481b5b5bc5d1cb58b0b884ba3907899"
     helper: "0x1011092bec3f94b8f80e1b4965c8f53789ec184f"
     pairs:
       USDC-WETH-0_05%:

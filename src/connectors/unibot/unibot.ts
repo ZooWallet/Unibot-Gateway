@@ -1,9 +1,14 @@
 // Unibotish
-import { Contract, Transaction, ContractTransaction, BigNumber } from 'ethers';
+import {
+  BigNumber,
+  Contract,
+  Transaction,
+  ContractTransaction,
+  Wallet,
+} from 'ethers';
 import unibotFactoryAbi from './unibot_factory_abi.json';
 import unibotHelperAbi from './unibot_helper_abi.json';
 import { UnibotConfig } from './unibot.config';
-import { Wallet } from 'ethers';
 import { Ethereum } from '../../chains/ethereum/ethereum';
 import { Polygon } from '../../chains/polygon/polygon';
 import { Unibotish } from '../../services/common-interfaces';
@@ -35,8 +40,6 @@ export class Unibot implements Unibotish {
   private static _instances: { [name: string]: Unibot };
   private chain: Ethereum | Polygon;
   private _network: string;
-  private _wallet?: Wallet;
-  private chainId;
   private _address: string = '';
   private _ready: boolean = false;
   private _config: UnibotConfig.ExchangeConfig;
@@ -49,7 +52,7 @@ export class Unibot implements Unibotish {
     } else {
       this.chain = Polygon.getInstance(network);
     }
-    this.chainId = this.chain.chainId;
+    console.log(`network: ${network}, chain: ${chain}`);
     this._network = network;
     this.abiDecoder.addABI(unibotFactoryAbi.abi);
     this.abiDecoder.addABI(unibotHelperAbi.abi);
@@ -81,7 +84,7 @@ export class Unibot implements Unibotish {
 
     if (this._address !== '') {
       try {
-        this._wallet = await this.chain.getWallet(this._address);
+        // this._wallet = await this.chain.getWallet(this._address);
       } catch (err) {
         logger.error(`Wallet ${this._address} not available.`);
         throw new HttpException(
@@ -97,9 +100,8 @@ export class Unibot implements Unibotish {
     return this._ready;
   }
 
-  public wallet(): void {
-    console.log(this._wallet);
-    console.log(this.chainId);
+  public async getWallet(address: string): Promise<Wallet> {
+    return await this.chain.getWallet(address);
   }
 
   public async getLatestPrice(pair: string): Promise<number> {
@@ -217,7 +219,11 @@ export class Unibot implements Unibotish {
     return estimateBuy;
   }
 
-  async estimateSellTrade(wallet: Wallet, pair: string): Promise<any> {
+  async estimateSellTrade(
+    wallet: Wallet,
+    pair: string,
+    positionId?: BigNumber
+  ): Promise<any> {
     const factoryContract: Contract = this._config.getFactory(
       this._network,
       pair,
@@ -239,14 +245,26 @@ export class Unibot implements Unibotish {
       wantToken
     );
     const positionIds: any = await this.getOpenPositions(wallet, pair);
-    const estimateBuy = {
+    let estimateSell = {
       pair,
       price: consultPrice,
       positionIds: positionIds,
       balance: wantTokenBalance,
+      positionInfo: undefined,
+      positionId: BigNumber.from(0),
       defaultProof,
     };
-    return estimateBuy;
+    if (positionId) {
+      const factoryAddr = this._config.contractAddress(this._network, pair);
+      const aggregator = this._config.getAggregator(this._network, this.chain);
+      const positionInfo: any = await aggregator.getAllPositionInfo(
+        factoryAddr,
+        positionId,
+        BigNumber.from(1)
+      );
+      estimateSell = { ...estimateSell, positionInfo, positionId };
+    }
+    return estimateSell;
   }
 
   async openPosition(
@@ -289,17 +307,17 @@ export class Unibot implements Unibotish {
       value: '0',
     };
     console.log(`result.args: ${result.args}`);
-    const nextNonce = await this.chain.nonceManager.getNextNonce(wallet.address);
+    const nonce = await this.chain.nonceManager.getNonceFromNode(wallet.address);
     const gasPrice = this.chain.gasPrice;
     const gasLimit = this.chain.gasLimitTransaction;
-    console.log(`nextNonce: ${nextNonce}`);
+    console.log(`nonce: ${nonce + 1}`);
     const tx: ContractTransaction = await factoryContract[result.methodName](
       ...result.args,
       {
         gasPrice: (gasPrice * 1e9).toFixed(0),
         gasLimit: gasLimit.toFixed(0),
         value: result.value,
-        nonce: nextNonce,
+        nonce: nonce + 1,
       }
     );
     logger.info(JSON.stringify(tx));
@@ -334,30 +352,25 @@ export class Unibot implements Unibotish {
       value: '0',
     };
     console.log(`result.args: ${result.args}`);
-    const nonce = await this.chain.nonceManager.getNonce(wallet.address);
+    const nonce = await this.chain.nonceManager.getNonceFromNode(wallet.address);
     const gasPrice = this.chain.gasPrice;
     const gasLimit = this.chain.gasLimitTransaction;
     console.log(
-      `address: ${wallet.address}, nonce: ${nonce}, gasPrice: ${gasPrice}, gasLimit: ${gasLimit}`
+      `address: ${wallet.address}, nonce: ${
+        nonce + 1
+      }, gasPrice: ${gasPrice}, gasLimit: ${gasLimit}`
     );
-    return this.chain.nonceManager.provideNonce(
-      nonce,
-      wallet.address,
-      async (nextNonce) => {
-        if (nonce == nextNonce) {
-          nextNonce += 1;
-        }
-        const tx: ContractTransaction = await factoryContract[
-          result.methodName
-        ](...result.args, {
-          // gasPrice: (gasPrice * 1e9).toFixed(0),
-          gasLimit: gasLimit.toFixed(0),
-          value: result.value,
-          nonce: nextNonce,
-        });
-        logger.info(JSON.stringify(tx));
-        return tx;
+
+    const tx: ContractTransaction = await factoryContract[result.methodName](
+      ...result.args,
+      {
+        // gasPrice: (gasPrice * 1e9).toFixed(0),
+        gasLimit: gasLimit.toFixed(0),
+        value: result.value,
+        nonce: nonce + 1,
       }
     );
+    logger.info(JSON.stringify(tx));
+    return tx;
   }
 }

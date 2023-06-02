@@ -57,7 +57,7 @@ export namespace UnibotConfig {
       return new Contract(contractAddr, unibotBalanceVault.abi, chain.provider);
     },
     getAggregator: (network: string, chain: Ethereum | Polygon | Wallet) => {
-      const qkey = `unibot.contractAddresses.${network}.helper`;
+      const qkey = `unibot.contractAddresses.${network}.aggregator`;
       const contractAddr = ConfigManagerV2.getInstance().get(qkey);
       return new Contract(contractAddr, unibotAggregator.abi, chain.provider);
     },

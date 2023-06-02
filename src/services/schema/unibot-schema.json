@@ -10,6 +10,7 @@
           "type": "object",
           "properties": {
             "balanceVault": {"type": "string"},
+            "aggregator": {"type": "string"},
             "helper": {"type": "string"},
             "pairs": { 
               "type": "object",

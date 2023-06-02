@@ -18,6 +18,7 @@ import { InjectiveCLOB } from '../connectors/injective/injective';
 import { InjectiveClobPerp } from '../connectors/injective_perpetual/injective.perp';
 import { Injective } from '../chains/injective/injective';
 import { ZigZag } from '../connectors/zigzag/zigzag';
+import { Unibot } from '../connectors/unibot/unibot';
 import {
   CLOBish,
   Ethereumish,
@@ -83,7 +84,8 @@ export type ConnectorUnion =
   | RefAMMish
   | CLOBish
   | ZigZag
-  | InjectiveClobPerp;
+  | InjectiveClobPerp
+  | Unibot;
 
 export type Connector<T> = T extends Uniswapish
   ? Uniswapish
@@ -153,6 +155,10 @@ export async function getConnector<T>(
     connectorInstance = DexalotCLOB.getInstance(network);
   } else if (chain === 'ethereum' && connector === 'zigzag') {
     connectorInstance = ZigZag.getInstance(network);
+  } else if (chain === 'ethereum' && connector === 'unibot') {
+    connectorInstance = Unibot.getInstance(chain, network);
+    await connectorInstance.init();
+    console.log(`connectorInstance.ready: ${connectorInstance.ready()}`);
   } else {
     throw new Error('unsupported chain or connector');
   }

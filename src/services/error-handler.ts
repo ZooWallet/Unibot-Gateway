@@ -149,6 +149,16 @@ export const UNKNOWN_ERROR_MESSAGE = 'Unknown error.';
 
 export const PRICE_FAILED_ERROR_MESSAGE = 'Price query failed: ';
 
+export const ESTIMATE_BUY_TRADE_FAILED_ERROR_MESSAGE =
+  'estimateBuyTrade failed: ';
+
+export const ESTIMATE_SELL_TRADE_FAILED_ERROR_MESSAGE =
+  'estimateSELLTrade failed: ';
+
+export const OPEN_POSITION_FAILED_ERROR_MESSAGE = 'openPosition failed: ';
+
+export const CLOSE_POSITION_FAILED_ERROR_MESSAGE = 'closePosition failed: ';
+
 export const TRADE_NOT_FOUND_ERROR_MESSAGE = 'Trade not found.';
 
 export interface ErrorResponse {
