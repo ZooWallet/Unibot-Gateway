@@ -198,12 +198,19 @@ export class Unibot implements Unibotish {
     );
     const wantToken = await factoryContract.callStatic.wantToken();
     // console.log(`wallet.address: ${wallet.address}, wantToken: ${wantToken}`);
+    const wantTokenContract = new Contract(
+      wantToken,
+      erc20.abi,
+      this.chain.provider
+    );
+    const wantDecimals: BigNumber = await wantTokenContract.decimals();
+    amount = BigNumber.from(amount).mul(BigNumber.from(10).pow(wantDecimals));
     const wantTokenBalance = await balanceVault.callStatic.getAccountBalance(
       wallet.address,
       wantToken
     );
-    const onPercent = BigNumber.from(1000);
-    const stopLossPercentReal = onPercent.mul(stopLossPercent);
+    const onePercent = BigNumber.from(100);
+    const stopLossPercentReal = onePercent.mul(stopLossPercent);
     const positionIds: any = await this.getOpenPositions(wallet, pair);
     const estimateBuy = {
       pair,
