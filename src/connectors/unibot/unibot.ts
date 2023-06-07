@@ -6,6 +6,7 @@ import {
   ContractTransaction,
   Wallet,
 } from 'ethers';
+import Decimal from 'decimal.js-light';
 import unibotFactoryAbi from './unibot_factory_abi.json';
 import unibotHelperAbi from './unibot_helper_abi.json';
 import { UnibotConfig } from './unibot.config';
@@ -179,6 +180,31 @@ export class Unibot implements Unibotish {
     return positionIds;
   }
 
+  tickToPrice(
+    consultPrice: BigNumber,
+    wantDecimals: BigNumber,
+    borrowDecimals: BigNumber,
+    wantTokenIsToken0: boolean
+  ) {
+    const tickBase = new Decimal('1.0001').pow(
+      new Decimal(consultPrice.toString())
+    );
+    let decimalBase = new Decimal(1);
+    if (wantDecimals != borrowDecimals) {
+      decimalBase = new Decimal(10).pow(
+        new Decimal(wantDecimals.toString()).sub(
+          new Decimal(borrowDecimals.toString())
+        )
+      );
+    }
+    const oppositeBase = new Decimal(1);
+    let estimatePrice = tickBase.mul(decimalBase);
+    if (wantTokenIsToken0) {
+      estimatePrice = oppositeBase.div(estimatePrice);
+    }
+    return estimatePrice;
+  }
+
   async estimateBuyTrade(
     wallet: Wallet,
     pair: string,
@@ -197,13 +223,28 @@ export class Unibot implements Unibotish {
       this.chain
     );
     const wantToken = await factoryContract.callStatic.wantToken();
+    const borrowToken = await factoryContract.callStatic.borrowToken();
     // console.log(`wallet.address: ${wallet.address}, wantToken: ${wantToken}`);
     const wantTokenContract = new Contract(
       wantToken,
       erc20.abi,
       this.chain.provider
     );
+    const borrowTokenContract = new Contract(
+      borrowToken,
+      erc20.abi,
+      this.chain.provider
+    );
     const wantDecimals: BigNumber = await wantTokenContract.decimals();
+    const borrowDecimals: BigNumber = await borrowTokenContract.decimals();
+    const wantTokenIsToken0: boolean =
+      await factoryContract.wantTokenIsToken0();
+    const estimatePrice = this.tickToPrice(
+      consultPrice,
+      wantDecimals,
+      borrowDecimals,
+      wantTokenIsToken0
+    );
     amount = BigNumber.from(amount).mul(BigNumber.from(10).pow(wantDecimals));
     const wantTokenBalance = await balanceVault.callStatic.getAccountBalance(
       wallet.address,
@@ -212,13 +253,29 @@ export class Unibot implements Unibotish {
     const onePercent = BigNumber.from(100);
     const stopLossPercentReal = onePercent.mul(stopLossPercent);
     const positionIds: any = await this.getOpenPositions(wallet, pair);
+    const stopLossUpper = consultPrice.add(stopLossPercentReal);
+    const estimatePriceStopLossUpper = this.tickToPrice(
+      stopLossUpper,
+      wantDecimals,
+      borrowDecimals,
+      wantTokenIsToken0
+    );
+    const stopLossLower = consultPrice.sub(stopLossPercentReal);
+    const estimatePriceStopLossLower = this.tickToPrice(
+      stopLossLower,
+      wantDecimals,
+      borrowDecimals,
+      wantTokenIsToken0
+    );
     const estimateBuy = {
-      pair,
-      price: consultPrice,
+      tick: consultPrice,
+      estimatePrice,
       wantAmount: amount,
       balance: wantTokenBalance,
-      stopLossUpper: consultPrice.add(stopLossPercentReal),
-      stopLossLower: consultPrice.sub(stopLossPercentReal),
+      stopLossUpper,
+      stopLossLower,
+      estimatePriceStopLossUpper,
+      estimatePriceStopLossLower,
       borrowRatioList: [5000, 10000, 15000, 20000],
       tickSpacing: await factoryContract.callStatic.tickSpacing(),
       positionIds,
@@ -246,15 +303,36 @@ export class Unibot implements Unibotish {
       this.chain
     );
     const wantToken = await factoryContract.callStatic.wantToken();
+    const borrowToken = await factoryContract.callStatic.borrowToken();
     console.log(`wallet.address: ${wallet.address}, wantToken: ${wantToken}`);
     const wantTokenBalance = await balanceVault.callStatic.getAccountBalance(
       wallet.address,
       wantToken
     );
+    const wantTokenContract = new Contract(
+      wantToken,
+      erc20.abi,
+      this.chain.provider
+    );
+    const borrowTokenContract = new Contract(
+      borrowToken,
+      erc20.abi,
+      this.chain.provider
+    );
+    const wantDecimals: BigNumber = await wantTokenContract.decimals();
+    const borrowDecimals: BigNumber = await borrowTokenContract.decimals();
+    const wantTokenIsToken0: boolean =
+      await factoryContract.wantTokenIsToken0();
+    const estimatePrice = this.tickToPrice(
+      consultPrice,
+      wantDecimals,
+      borrowDecimals,
+      wantTokenIsToken0
+    );
     const positionIds: any = await this.getOpenPositions(wallet, pair);
     let estimateSell = {
-      pair,
-      price: consultPrice,
+      tick: consultPrice,
+      estimatePrice,
       positionIds: positionIds,
       balance: wantTokenBalance,
       positionInfo: undefined,

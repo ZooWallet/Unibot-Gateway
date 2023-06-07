@@ -11,11 +11,14 @@ export interface EstimateBuyTradeRequest extends NetworkSelectionRequest {
 
 export interface EstimateBuyTradResponse {
   pair: any;
-  price: any;
+  tick: any;
+  estimatePrice: any;
   wantAmount: any;
   balance: any;
   stopLossUpper: any;
   stopLossLower: any;
+  estimatePriceStopLossUpper: any;
+  estimatePriceStopLossLower: any;
   borrowRatioList: any;
   tickSpacing: any;
   positionIds: any;

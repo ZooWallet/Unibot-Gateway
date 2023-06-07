@@ -1,6 +1,6 @@
 export function estimateBuyTradeFormatOut(payload: any) {
-  if ('price' in payload) {
-    payload.price = payload.price.toString();
+  if ('tick' in payload) {
+    payload.tick = payload.tick.toString();
   }
   if ('wantAmount' in payload) {
     payload.wantAmount = payload.wantAmount.toString();
@@ -14,6 +14,17 @@ export function estimateBuyTradeFormatOut(payload: any) {
   if ('stopLossLower' in payload) {
     payload.stopLossLower = payload.stopLossLower.toString();
   }
+  if ('estimatePrice' in payload) {
+    payload.estimatePrice = payload.estimatePrice.toString();
+  }
+  if ('estimatePriceStopLossUpper' in payload) {
+    payload.estimatePriceStopLossUpper =
+      payload.estimatePriceStopLossUpper.toString();
+  }
+  if ('estimatePriceStopLossLower' in payload) {
+    payload.estimatePriceStopLossLower =
+      payload.estimatePriceStopLossLower.toString();
+  }
   if ('positionIds' in payload) {
     const positionIds = payload['positionIds'].map((element: any) => {
       return element.toString();
@@ -22,21 +33,27 @@ export function estimateBuyTradeFormatOut(payload: any) {
   }
   const resp = {
     pair: payload['pair'],
-    price: payload['price'],
+    tick: payload['tick'],
     wantAmount: payload['wantAmount'],
     balance: payload['balance'],
     stopLossUpper: payload['stopLossUpper'],
     stopLossLower: payload['stopLossLower'],
+    estimatePriceStopLossUpper: payload['estimatePriceStopLossUpper'],
+    estimatePriceStopLossLower: payload['estimatePriceStopLossLower'],
     borrowRatioList: payload['borrowRatioList'],
     tickSpacing: payload['tickSpacing'],
     positionIds: payload['positionIds'],
+    estimatePrice: payload['estimatePrice'],
   };
   return resp;
 }
 
 export function estimateSellTradeFormatOut(payload: any) {
-  if ('price' in payload) {
-    payload.price = payload.price.toString();
+  if ('tick' in payload) {
+    payload.tick = payload.tick.toString();
+  }
+  if ('estimatePrice' in payload) {
+    payload.estimatePrice = payload.estimatePrice.toString();
   }
   if ('wantAmount' in payload) {
     payload.wantAmount = payload.wantAmount.toString();
