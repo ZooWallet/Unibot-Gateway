@@ -2791,6 +2791,13 @@
       "symbol": "SUSD",
       "decimals": 18,
       "logoURI": "https://s2.coinmarketcap.com/static/img/coins/64x64/2927.png"
+    },
+    {
+      "chainId": 42161,
+      "name": "ARB",
+      "address": "0x57Ab1ec28D129707052df4dF418D58a2D46d5f51",
+      "symbol": "ARB",
+      "decimals": 18
     }
   ],
   "logoURI": "ipfs://QmTvWJ4kmzq9koK74WJQ594ov8Es1HHurHZmMmhU8VY68y"

@@ -1,25 +1,60 @@
 allowedSlippage: "200"
 
 contractAddresses:
-  mumbai:
-    balanceVault: "0x600101663A7Ed7d24f2d9ef5589837a1755dA9D3"
-    aggregator: "0xa18e3b7190ac78c258e5ea339431966297428f6b"
-    helper: "0x79a2E369A4AEC13092a07F3681cc2F3f3329142f"
-    pairs:
-      WMATIC-DERC20-0_05%:
-        factory: "0xe0911898D30f469A3d471d2f535eB66579641517"
-        wantToken: "0xfe4F5145f6e09952a5ba9e956ED0C25e3Fa4c7F1"
-        borrowToken: "0x9c3C9283D3e44854697Cd22D3Faa240Cfb032889"
-        isWantToken0: false
   arbitrum_one:
     balanceVault: "0x8610d60f5329b0560c8f0ceb80175f342fe943f3"
-    aggregator: "0xe2a0bd0be481b5b5bc5d1cb58b0b884ba3907899"
+    aggregator: "0x69f3924340f374ac8c38f1e0271397064ca61202"
     helper: "0x1011092bec3f94b8f80e1b4965c8f53789ec184f"
     pairs:
       USDC-WETH-0_05%:
         factory: "0xCAD7DaF7517Fe80B93C8938eAdf3156a68873C53"
         wantToken: "0xff970a61a04b1ca14834a43f5de4533ebddb5cc8"
         borrowToken: "0x82af49447d8a07e3bd95bd0d56f35241523fbab1"
+        isWantToken0: false
+      GMX-WETH-1%:
+        factory: "0xBb0Af4563b940F01ACc528ECd4635b85e188e6f1"
+        wantToken: "0xfc5a1a6eb076a2c7ad06ed22c90d7e710e35ad0a"
+        borrowToken: "0x82af49447d8a07e3bd95bd0d56f35241523fbab1"
+        isWantToken0: false
+      USDC-ARB-1%:
+        factory: "0x495D7C77049b6185c021B7cf11CfD6e3d04E28D5"
+        wantToken: "0xff970a61a04b1ca14834a43f5de4533ebddb5cc8"
+        borrowToken: "0x912ce59144191c1204e64559fe8253a0e49e6548"
+        isWantToken0: false
+      ARB-WETH-0_3%:
+        factory: "0xCbD73Fb7B6645573c3b388A03bFEEed80035375d"
+        wantToken: "0x912ce59144191c1204e64559fe8253a0e49e6548"
+        borrowToken: "0x82af49447d8a07e3bd95bd0d56f35241523fbab1"
+        isWantToken0: false
+      USDC-ARB-0_3%:
+        factory: "0xD54079Ef4c6B8cf0A3b8a14322cf08a20A14bb28"
+        wantToken: "0xff970a61a04b1ca14834a43f5de4533ebddb5cc8"
+        borrowToken: "0x912ce59144191c1204e64559fe8253a0e49e6548"
+        isWantToken0: false
+      ARB-WETH-0_05%:
+        factory: "0x177b7d394a9b28dA8ccC32A7Ce79CB3D7fAD836A"
+        wantToken: "0x912ce59144191c1204e64559fe8253a0e49e6548"
+        borrowToken: "0x82af49447d8a07e3bd95bd0d56f35241523fbab1"
+        isWantToken0: false
+      WETH-USDC-0_05%:
+        factory: "0xfd0B26dA4ED57Fb5F58d60D9d2a92d42dab81111"
+        wantToken: "0x82af49447d8a07e3bd95bd0d56f35241523fbab1"
+        borrowToken: "0xff970a61a04b1ca14834a43f5de4533ebddb5cc8"
+        isWantToken0: true
+  polygon:
+    balanceVault: "0xd576be0d3cc1c0184d1ea3f1778a4a9dec523859"
+    aggregator: "0xc8d0d30654592c63f5bb1e04bd1e97b53c9770f3"
+    helper: "0x505cc9183a1825174e80557940f15952e2cb74aa"
+    pairs:
+      USDC-WETH-0_05%:
+        factory: "0x46E65545f4A527a7e2090Bab9E1AC21D019BEE38"
+        wantToken: "0x2791bca1f2de4661ed88a30c99a7a9449aa84174"
+        borrowToken: "0x7ceb23fd6bc0add59e62ac25578270cff1b9f619"
+        isWantToken0: true
+      WETH-WMATIC-0_05%:
+        factory: "0xa2f14e5bFc78f67eB0eF0551b8421E59850A316B"
+        wantToken: "0x7ceb23fd6bc0add59e62ac25578270cff1b9f619"
+        borrowToken: "0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270"
         isWantToken0: false
   bsc:
     balanceVault: "0xd576be0d3cc1c0184d1ea3f1778a4a9dec523859"
@@ -30,4 +65,14 @@ contractAddresses:
         factory: "0x61De30d8367e852eF13494e19fde9F97198E2Fc9"
         wantToken: "0x55d398326f99059ff775485246999027b3197955"
         borrowToken: "0x0e09fabb73bd3ade0a17ecc321fd13a19e81ce82"
+        isWantToken0: false
+  mumbai:
+    balanceVault: "0x600101663A7Ed7d24f2d9ef5589837a1755dA9D3"
+    aggregator: "0xa18e3b7190ac78c258e5ea339431966297428f6b"
+    helper: "0x79a2E369A4AEC13092a07F3681cc2F3f3329142f"
+    pairs:
+      WMATIC-DERC20-0_05%:
+        factory: "0xe0911898D30f469A3d471d2f535eB66579641517"
+        wantToken: "0xfe4F5145f6e09952a5ba9e956ED0C25e3Fa4c7F1"
+        borrowToken: "0x9c3C9283D3e44854697Cd22D3Faa240Cfb032889"
         isWantToken0: false
