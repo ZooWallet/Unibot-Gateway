@@ -24,7 +24,7 @@ export interface EstimateBuyTradResponse {
 export interface EstimateSellTradeRequest extends NetworkSelectionRequest {
   pair: string;
   address: string;
-  positionId?: BigNumber;
+  positionId?: any;
 }
 
 export interface EstimateOpenPositionRequest extends NetworkSelectionRequest {

@@ -47,13 +47,13 @@ export function estimateSellTradeFormatOut(payload: any) {
   if ('positionId' in payload) {
     payload.positionId = payload.positionId.toString();
   }
-  if ('positionIds' in payload) {
+  if ('positionIds' in payload && payload['positionIds']) {
     const positionIds = payload['positionIds'].map((element: any) => {
       return element.toString();
     });
     payload.positionIds = positionIds;
   }
-  if ('positionInfo' in payload) {
+  if ('positionInfo' in payload && payload['positionInfo']) {
     const positionInfo = payload['positionInfo'];
     const positionInfoObj: any = {
       canStopLoss: positionInfo[0],

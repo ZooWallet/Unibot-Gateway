@@ -18,7 +18,10 @@ import {
   UNKNOWN_ERROR_MESSAGE,
 } from '../services/error-handler';
 import { Wallet } from 'ethers';
-import { estimateBuyTradeFormatOut, estimateSellTradeFormatOut } from './unibot.outformat';
+import {
+  estimateBuyTradeFormatOut,
+  estimateSellTradeFormatOut,
+} from './unibot.outformat';
 
 export async function estimateBuyTrade(
   req: EstimateBuyTradeRequest
@@ -67,15 +70,7 @@ export async function estimateSellTrade(
   const wallet: Wallet = await connector.getWallet(req.address);
   let resp: any;
   try {
-    if (req.positionId) {
-      resp = await connector.estimateSellTrade(
-        wallet,
-        req.pair,
-        req.positionId
-      );
-    } else {
-      resp = await connector.estimateSellTrade(wallet, req.pair);
-    }
+    resp = await connector.estimateSellTrade(wallet, req.pair, req.positionId);
     resp = estimateSellTradeFormatOut(resp);
   } catch (e) {
     if (e instanceof Error) {
