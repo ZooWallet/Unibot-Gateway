@@ -839,7 +839,8 @@ export interface Unibotish {
     reserveRatio: BigNumber,
     stopLossUpperPriceTick: BigNumber,
     stopLossLowerPriceTick: BigNumber,
-    tickRange: BigNumber
+    tickRange: BigNumber,
+    proof?: string[]
   ): Promise<Transaction>;
 
   closePosition(
@@ -847,6 +848,7 @@ export interface Unibotish {
     pair: string,
     _positionId: BigNumber,
     _spotPriceTick: BigNumber,
-    _slippage: BigNumber
+    _slippage: BigNumber,
+    proof?: string[]
   ): Promise<Transaction>;
 }

@@ -163,7 +163,8 @@ describe('test with unibot suite', () => {
       BigNumber.from(0),
       result['stopLossUpper'],
       result['stopLossLower'],
-      tickRange
+      tickRange,
+      []
     );
     console.log(`openResult: ${JSON.stringify(openResult)}`);
   });
@@ -185,7 +186,8 @@ describe('test with unibot suite', () => {
         testPair,
         result2['positionIds'][0],
         result2['price'],
-        BigNumber.from(200)
+        BigNumber.from(200),
+        []
       );
       console.log(`closeResult: ${JSON.stringify(closeResult)}`);
     }

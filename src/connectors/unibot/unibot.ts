@@ -284,7 +284,8 @@ export class Unibot implements Unibotish {
     reserveRatio: BigNumber,
     stopLossUpperPriceTick: BigNumber,
     stopLossLowerPriceTick: BigNumber,
-    tickRange: BigNumber
+    tickRange: BigNumber,
+    proof: string[]
   ): Promise<Transaction> {
     const factoryAddr = this._config.contractAddress(this._network, pair);
     const factoryContract = new Contract(
@@ -295,6 +296,10 @@ export class Unibot implements Unibotish {
     const defaultProof = [
       '0x0000000000000000000000000000000000000000000000000000000000000000',
     ];
+
+    if (!proof) {
+      proof = defaultProof;
+    }
     const _strategyParams = {
       wantTokenAmount,
       borrowRatio,
@@ -310,7 +315,7 @@ export class Unibot implements Unibotish {
     console.log(_strategyParams);
     const result = {
       methodName: 'openPosition',
-      args: [_strategyParams, defaultProof],
+      args: [_strategyParams, proof],
       value: '0',
     };
     console.log(`result.args: ${result.args}`);
@@ -336,7 +341,8 @@ export class Unibot implements Unibotish {
     pair: string,
     _positionId: BigNumber,
     _spotPriceTick: BigNumber,
-    _slippage: BigNumber
+    _slippage: BigNumber,
+    proof: string[]
   ): Promise<Transaction> {
     const factoryAddr = this._config.contractAddress(this._network, pair);
     const factoryContract = new Contract(
@@ -347,6 +353,9 @@ export class Unibot implements Unibotish {
     const defaultProof = [
       '0x0000000000000000000000000000000000000000000000000000000000000000',
     ];
+    if (!proof) {
+      proof = defaultProof;
+    }
     const _strategyParams = {
       _positionId,
       _spotPriceTick,
@@ -355,7 +364,7 @@ export class Unibot implements Unibotish {
     console.log(_strategyParams);
     const result = {
       methodName: 'closePosition',
-      args: [_positionId, _spotPriceTick, _slippage, defaultProof],
+      args: [_positionId, _spotPriceTick, _slippage, proof],
       value: '0',
     };
     console.log(`result.args: ${result.args}`);

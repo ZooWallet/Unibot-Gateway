@@ -39,6 +39,7 @@ export interface EstimateOpenPositionRequest extends NetworkSelectionRequest {
   stopLossUpperPriceTick: BigNumber;
   stopLossLowerPriceTick: BigNumber;
   tickRange: BigNumber;
+  proof?: string[];
 }
 
 export interface EstimateClosePositionRequest extends NetworkSelectionRequest {
@@ -47,6 +48,7 @@ export interface EstimateClosePositionRequest extends NetworkSelectionRequest {
   positionId: BigNumber;
   spotPriceTick: BigNumber;
   slippage: BigNumber;
+  proof?: string[];
 }
 
 export interface UnibotPositionResponse extends UnibotPosition {

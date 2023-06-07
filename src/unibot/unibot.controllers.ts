@@ -116,7 +116,8 @@ export async function openPosition(
       req.reserveRatio,
       req.stopLossUpperPriceTick,
       req.stopLossLowerPriceTick,
-      req.tickRange
+      req.tickRange,
+      req.proof
     );
   } catch (e) {
     if (e instanceof Error) {
@@ -152,7 +153,8 @@ export async function closePosition(
       req.pair,
       req.positionId,
       req.spotPriceTick,
-      req.slippage
+      req.slippage,
+      req.proof
     );
   } catch (e) {
     if (e instanceof Error) {
