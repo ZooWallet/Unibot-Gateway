@@ -404,7 +404,9 @@ export class Unibot implements Unibotish {
     stopLossUpperPriceTick: BigNumber,
     stopLossLowerPriceTick: BigNumber,
     tickRange: BigNumber,
-    proof: string[]
+    proof?: string[],
+    gasLimit?: number,
+    gasPrice?: number
   ): Promise<Transaction> {
     const factoryAddr = this._config.contractAddress(this._network, pair);
     const factoryContract = new Contract(
@@ -438,9 +440,11 @@ export class Unibot implements Unibotish {
       value: '0',
     };
     console.log(`result.args: ${result.args}`);
-    const nonce = await this.chain.nonceManager.getNonceFromNode(wallet.address);
-    const gasPrice = this.chain.gasPrice;
-    const gasLimit = this.chain.gasLimitTransaction;
+    const nonce = await this.chain.nonceManager.getNonceFromNode(
+      wallet.address
+    );
+    gasPrice = gasPrice ? gasPrice : this.chain.gasPrice;
+    gasLimit = gasLimit ? gasLimit : this.chain.gasLimitTransaction;
     console.log(`nonce: ${nonce + 1}`);
     const tx: ContractTransaction = await factoryContract[result.methodName](
       ...result.args,
@@ -461,7 +465,9 @@ export class Unibot implements Unibotish {
     _positionId: BigNumber,
     _spotPriceTick: BigNumber,
     _slippage: BigNumber,
-    proof: string[]
+    proof?: string[],
+    gasLimit?: number,
+    gasPrice?: number
   ): Promise<Transaction> {
     const factoryAddr = this._config.contractAddress(this._network, pair);
     const factoryContract = new Contract(
@@ -487,9 +493,11 @@ export class Unibot implements Unibotish {
       value: '0',
     };
     console.log(`result.args: ${result.args}`);
-    const nonce = await this.chain.nonceManager.getNonceFromNode(wallet.address);
-    const gasPrice = this.chain.gasPrice;
-    const gasLimit = this.chain.gasLimitTransaction;
+    const nonce = await this.chain.nonceManager.getNonceFromNode(
+      wallet.address
+    );
+    gasPrice = gasPrice ? gasPrice : this.chain.gasPrice;
+    gasLimit = gasLimit ? gasLimit : this.chain.gasLimitTransaction;
     console.log(
       `address: ${wallet.address}, nonce: ${
         nonce + 1

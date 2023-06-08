@@ -842,7 +842,9 @@ export interface Unibotish {
     stopLossUpperPriceTick: BigNumber,
     stopLossLowerPriceTick: BigNumber,
     tickRange: BigNumber,
-    proof?: string[]
+    proof?: string[],
+    gasLimit?: number,
+    gasPrice?: number
   ): Promise<Transaction>;
 
   closePosition(
@@ -851,6 +853,8 @@ export interface Unibotish {
     _positionId: BigNumber,
     _spotPriceTick: BigNumber,
     _slippage: BigNumber,
-    proof?: string[]
+    proof?: string[],
+    gasLimit?: number,
+    gasPrice?: number
   ): Promise<Transaction>;
 }
