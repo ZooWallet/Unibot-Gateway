@@ -446,17 +446,31 @@ export class Unibot implements Unibotish {
     gasPrice = gasPrice ? gasPrice : this.chain.gasPrice;
     gasLimit = gasLimit ? gasLimit : this.chain.gasLimitTransaction;
     console.log(`nonce: ${nonce + 1}`);
-    const tx: ContractTransaction = await factoryContract[result.methodName](
-      ...result.args,
-      {
-        gasPrice: (gasPrice * 1e9).toFixed(0),
-        gasLimit: gasLimit.toFixed(0),
-        value: result.value,
-        nonce: nonce + 1,
-      }
-    );
-    logger.info(JSON.stringify(tx));
-    return tx;
+    // static call once
+    const staticCallResponse = await factoryContract.callStatic[
+      result.methodName
+    ](...result.args, {
+      gasPrice: (gasPrice * 1e9).toFixed(0),
+      gasLimit: gasLimit.toFixed(0),
+      value: result.value,
+      nonce: nonce + 1,
+    });
+    logger.info(`openPosition callStatic: ${staticCallResponse}`);
+    if (!staticCallResponse.includes('revert')) {
+      const tx: ContractTransaction = await factoryContract[result.methodName](
+        ...result.args,
+        {
+          gasPrice: (gasPrice * 1e9).toFixed(0),
+          gasLimit: gasLimit.toFixed(0),
+          value: result.value,
+          nonce: nonce + 1,
+        }
+      );
+      logger.info(JSON.stringify(tx));
+      return tx;
+    } else {
+      return staticCallResponse;
+    }
   }
 
   async closePosition(
@@ -503,17 +517,30 @@ export class Unibot implements Unibotish {
         nonce + 1
       }, gasPrice: ${gasPrice}, gasLimit: ${gasLimit}`
     );
-
-    const tx: ContractTransaction = await factoryContract[result.methodName](
-      ...result.args,
-      {
-        // gasPrice: (gasPrice * 1e9).toFixed(0),
-        gasLimit: gasLimit.toFixed(0),
-        value: result.value,
-        nonce: nonce + 1,
-      }
-    );
-    logger.info(JSON.stringify(tx));
-    return tx;
+    // static call once
+    const staticCallResponse = await factoryContract.callStatic[
+      result.methodName
+    ](...result.args, {
+      // gasPrice: (gasPrice * 1e9).toFixed(0),
+      gasLimit: gasLimit.toFixed(0),
+      value: result.value,
+      nonce: nonce + 1,
+    });
+    logger.info(`closePosition callStatic: ${staticCallResponse}`);
+    if (!staticCallResponse.includes('revert')) {
+      const tx: ContractTransaction = await factoryContract[result.methodName](
+        ...result.args,
+        {
+          // gasPrice: (gasPrice * 1e9).toFixed(0),
+          gasLimit: gasLimit.toFixed(0),
+          value: result.value,
+          nonce: nonce + 1,
+        }
+      );
+      logger.info(JSON.stringify(tx));
+      return tx;
+    } else {
+      return staticCallResponse;
+    }
   }
 }
