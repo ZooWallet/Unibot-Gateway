@@ -1,3 +1,5 @@
+import Decimal from 'decimal.js-light';
+
 export function getFactoryFormatOut(payload: any) {
   if ('reserveRatioMax' in payload) {
     payload.reserveRatioMax = payload.reserveRatioMax.toString();
@@ -103,8 +105,8 @@ export function estimateSellTradeFormatOut(payload: any) {
       canStopLoss: positionInfo[0],
       healthFactor: positionInfo[1].toString(),
       borrowAmount: positionInfo[2].toString(),
-      positionValueMeasuredInWantToken: positionInfo[3].toString(),
-      debtValueMeasuredInWantToken: positionInfo[4].toString(),
+      positionValueMeasuredInWantToken: new Decimal(positionInfo[3].toString()),
+      debtValueMeasuredInWantToken: new Decimal(positionInfo[4].toString()),
       tickLower: positionInfo[5].toString(),
       tickUpper: positionInfo[6].toString(),
     };
@@ -120,8 +122,8 @@ export function estimateSellTradeFormatOut(payload: any) {
       positionId: PositionRaw[0].toString(),
       owner: PositionRaw[1],
       borrowId: PositionRaw[2].toString(),
-      wantTokenAmountAtStart: PositionRaw[3].toString(),
-      reserveAmountAtStart: PositionRaw[4].toString(),
+      wantTokenAmountAtStart: new Decimal(PositionRaw[3].toString()),
+      reserveAmountAtStart: new Decimal(PositionRaw[4].toString()),
       positionCreateTimestamp: PositionRaw[5].toString(),
       startPriceTick: PositionRaw[6].toString(),
       borrowRatio: PositionRaw[7].toString(),
@@ -130,11 +132,10 @@ export function estimateSellTradeFormatOut(payload: any) {
       stopLossLowerPriceTick: PositionRaw[10].toString(),
     };
     // positionValueMeasuredInWantToken - wantTokenAmountAtStart - debtValueMeasuredInWantToken + reserveAmountAtStart
-    positionInfoObj.PNL =
-      positionInfoObj.positionValueMeasuredInWantToken -
-      positionInfoObj.position.wantTokenAmountAtStart -
-      positionInfoObj.debtValueMeasuredInWantToken +
-      positionInfoObj.position.reserveAmountAtStart;
+    positionInfoObj.PNL = positionInfoObj.positionValueMeasuredInWantToken
+      .sub(positionInfoObj.position.wantTokenAmountAtStart)
+      .sub(positionInfoObj.debtValueMeasuredInWantToken)
+      .add(positionInfoObj.position.reserveAmountAtStart);
 
     payload['positionInfo'] = positionInfoObj;
   }
