@@ -2,6 +2,12 @@ import { BigNumber } from 'ethers';
 import { UnibotPosition } from '../connectors/unibot/unibot';
 import { NetworkSelectionRequest } from '../services/common-interfaces';
 
+export interface FactoryInfoRequest {
+  chain?: string;
+  network?: string;
+  pair?: string;
+}
+
 export interface EstimateBuyTradeRequest extends NetworkSelectionRequest {
   pair: string;
   address: string;

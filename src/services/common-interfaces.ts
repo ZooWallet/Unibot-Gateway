@@ -810,6 +810,8 @@ export interface Unibotish {
 
   getLatestPrice(pair: string): Promise<any>;
 
+  getFactoryInfo(pair: string): Promise<any>;
+
   estimateBuyTrade(
     wallet: Wallet,
     pair: string,

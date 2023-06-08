@@ -4,11 +4,13 @@ import {
   EstimateClosePositionRequest,
   EstimateOpenPositionRequest,
   EstimateSellTradeRequest,
+  FactoryInfoRequest,
 } from './unibot.requests';
 import { getConnector } from '../services/connection-manager';
 import { Unibotish } from '../services/common-interfaces';
 import {
   HttpException,
+  GET_FACTORY_INFO_FAILED_ERROR_MESSAGE,
   PRICE_FAILED_ERROR_CODE,
   ESTIMATE_BUY_TRADE_FAILED_ERROR_MESSAGE,
   ESTIMATE_SELL_TRADE_FAILED_ERROR_MESSAGE,
@@ -19,9 +21,39 @@ import {
 } from '../services/error-handler';
 import { Wallet } from 'ethers';
 import {
+  getFactoryFormatOut,
   estimateBuyTradeFormatOut,
   estimateSellTradeFormatOut,
 } from './unibot.outformat';
+
+export async function getFactoryInfo(req: FactoryInfoRequest): Promise<any> {
+  const connector: Unibotish = await getConnector<Unibotish>(
+    req.chain ? req.chain : 'ethereum',
+    req.network ? req.network : 'arbitrum_one',
+    'unibot'
+  );
+  let resp: any;
+  try {
+    const pair = req.pair ? req.pair : 'ARB-WETH-0_05%';
+    const payload = await connector.getFactoryInfo(pair);
+    resp = getFactoryFormatOut(payload);
+  } catch (e) {
+    if (e instanceof Error) {
+      throw new HttpException(
+        500,
+        GET_FACTORY_INFO_FAILED_ERROR_MESSAGE + e.message,
+        PRICE_FAILED_ERROR_CODE
+      );
+    } else {
+      throw new HttpException(
+        500,
+        UNKNOWN_ERROR_MESSAGE,
+        UNKNOWN_ERROR_ERROR_CODE
+      );
+    }
+  }
+  return resp;
+}
 
 export async function estimateBuyTrade(
   req: EstimateBuyTradeRequest

@@ -2,8 +2,15 @@
 /* eslint-disable @typescript-eslint/ban-types */
 import { Router, Request, Response } from 'express';
 import { asyncHandler } from '../services/error-handler';
-import { closePosition, estimateBuyTrade, estimateSellTrade, openPosition } from './unibot.controllers';
 import {
+  getFactoryInfo,
+  closePosition,
+  estimateBuyTrade,
+  estimateSellTrade,
+  openPosition,
+} from './unibot.controllers';
+import {
+  FactoryInfoRequest,
   EstimateBuyTradeRequest,
   EstimateBuyTradResponse,
   EstimateClosePositionRequest,
@@ -14,6 +21,18 @@ import { validateEstimateBuyTradeRequestRequest } from './unibot.validators';
 
 export namespace UnibotRoutes {
   export const router = Router();
+
+  router.get(
+    '/factory/info',
+    asyncHandler(
+      async (
+        req: Request<{}, {}, FactoryInfoRequest>,
+        res: Response<any | string, {}>
+      ) => {
+        res.status(200).json(await getFactoryInfo(req.query));
+      }
+    )
+  );
 
   router.post(
     '/estimate/buy',

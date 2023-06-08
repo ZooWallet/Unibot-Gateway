@@ -149,6 +149,9 @@ export const UNKNOWN_ERROR_MESSAGE = 'Unknown error.';
 
 export const PRICE_FAILED_ERROR_MESSAGE = 'Price query failed: ';
 
+export const GET_FACTORY_INFO_FAILED_ERROR_MESSAGE =
+  'get factory info failed: ';
+
 export const ESTIMATE_BUY_TRADE_FAILED_ERROR_MESSAGE =
   'estimateBuyTrade failed: ';
 

@@ -16,6 +16,7 @@ import { Unibotish } from '../../services/common-interfaces';
 import { tickToPrice } from '@uniswap/v3-sdk';
 import { Token } from '@uniswap/sdk-core';
 import erc20 from './erc20.json';
+import unibotController from './unibot_controller.json';
 import {
   HttpException,
   LOAD_WALLET_ERROR_CODE,
@@ -203,6 +204,46 @@ export class Unibot implements Unibotish {
       estimatePrice = oppositeBase.div(estimatePrice);
     }
     return estimatePrice;
+  }
+
+  async getFactoryInfo(pair: string): Promise<any> {
+    const contractAddress = this._config.contractAddress(this._network, pair);
+    const factoryContract: Contract = this._config.getFactory(
+      this._network,
+      pair,
+      this.chain
+    );
+    const controller = await factoryContract.callStatic.controller();
+    const controllerContract = new Contract(
+      controller,
+      unibotController.abi,
+      this.chain.provider
+    );
+    const wantToken = await factoryContract.callStatic.wantToken();
+    const borrowToken = await factoryContract.callStatic.borrowToken();
+    const reserveRatioMax = await factoryContract.callStatic.reserveRatioMax();
+    const borrowRatioMax = await factoryContract.callStatic.borrowRatioMax();
+    const borrowRatioMin = await factoryContract.callStatic.borrowRatioMin();
+    const tickSpacing = await factoryContract.callStatic.tickSpacing();
+    const openPositionMaximumAmount =
+      await factoryContract.callStatic.openPositionMaximumAmount();
+    const openPositionMinimumAmount =
+      await factoryContract.callStatic.openPositionMinimumAmount();
+    const maxPositionNumber =
+      await controllerContract.callStatic.maxPositionNumber();
+    return {
+      pair,
+      contractAddress,
+      wantToken,
+      borrowToken,
+      openPositionMaximumAmount,
+      openPositionMinimumAmount,
+      maxPositionNumber,
+      reserveRatioMax,
+      borrowRatioMax,
+      borrowRatioMin,
+      tickSpacing,
+    };
   }
 
   async estimateBuyTrade(

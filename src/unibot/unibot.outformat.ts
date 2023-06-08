@@ -1,3 +1,30 @@
+export function getFactoryFormatOut(payload: any) {
+  if ('reserveRatioMax' in payload) {
+    payload.reserveRatioMax = payload.reserveRatioMax.toString();
+  }
+  if ('borrowRatioMax' in payload) {
+    payload.borrowRatioMax = payload.borrowRatioMax.toString();
+  }
+  if ('borrowRatioMin' in payload) {
+    payload.borrowRatioMin = payload.borrowRatioMin.toString();
+  }
+  if ('tickSpacing' in payload) {
+    payload.tickSpacing = payload.tickSpacing.toString();
+  }
+  if ('openPositionMaximumAmount' in payload) {
+    payload.openPositionMaximumAmount =
+      payload.openPositionMaximumAmount.toString();
+  }
+  if ('openPositionMinimumAmount' in payload) {
+    payload.openPositionMinimumAmount =
+      payload.openPositionMinimumAmount.toString();
+  }
+  if ('maxPositionNumber' in payload) {
+    payload.maxPositionNumber = payload.maxPositionNumber.toString();
+  }
+  return payload;
+}
+
 export function estimateBuyTradeFormatOut(payload: any) {
   if ('tick' in payload) {
     payload.tick = payload.tick.toString();
