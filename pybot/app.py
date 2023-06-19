@@ -25,12 +25,18 @@ request_headers = {
 network = "arbitrum_one"
 pair = "ARB-WETH-0_05%"
 address = "0x777c86AA8D6145405ABe070659d660ea955C214A"
-open_amount = "500"
+try_open_price = '1732'
+open_amount = "150"
+put_all_asset = False
 stop_loss_percent = 70
 slippage = 200
 reserve_ratio = 0
+# ex. 15000 = 1.5x
 borrowing_ratio = 15000
 tick_range = 1000
+earn_percent = Decimal('0.4')
+# stop loss 也是依照 earn_percent 設定， 也就是賺賠風險一致
+stop_loss_with_same_earn_percent = True
 
 operations_payload_template = {
     "estimate_buy": {
@@ -152,10 +158,12 @@ def main():
     p1 = estimate_buy()
     print(p1)
     d_estimatePrice = Decimal(p1["estimatePrice"])
-    try_open_price = '1640'
+    want_amount = p1['wantAmount']
+    if put_all_asset:
+        want_amount = p1['balance']
     if len(p1["positionIds"]) == 0 and d_estimatePrice > Decimal(try_open_price):
         o = open_position(
-            wantTokenAmount=p1["wantAmount"],
+            wantTokenAmount=want_amount,
             spotPriceTick=p1["tick"],
             stopLossUpperPriceTick=p1["stopLossUpper"],
             stopLossLowerPriceTick=p1["stopLossLower"],
@@ -165,16 +173,17 @@ def main():
 
     p2 = estimate_sell()
     # print(p2)
-    earn_percent = Decimal('1')
     if len(p2["positionIds"]) > 0:
         p2 = estimate_sell(positionId=p2["positionIds"][0])
         print(p2)
         pnl = Decimal(p2["positionInfo"]["PNL"])
         want_at_start = Decimal(p2["positionInfo"]["position"]["wantTokenAmountAtStart"])
         target_earn_value = want_at_start / 100 * earn_percent
-        print(f'want_at_start: {want_at_start} , pnl: {pnl} target_earn_value: {target_earn_value}')
+        print(f'want_at_start: {want_at_start}, pnl: {pnl} target_earn_value: {target_earn_value}')
         condition_match = target_earn_value < pnl
-        print(f'condition_match: {condition_match}')
+        if stop_loss_with_same_earn_percent:
+            condition_match = target_earn_value < abs(pnl)
+        print(f'condition_match: {condition_match}, stop_loss_with_same_earn_percent: {stop_loss_with_same_earn_percent}')
         if condition_match:
             resp = close_position(positionId=p2["positionId"], spotPriceTick=p2["tick"])
             print(resp)
