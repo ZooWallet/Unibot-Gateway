@@ -1,0 +1,13 @@
+version: "3.1"
+services:
+  unibot-gateway:
+    image: masatow25/unibot-gateway:0.0.1
+    restart: always
+    command: "/bin/bash ./startup.sh"
+    ports:
+      - "15888:15888"
+    environment:
+      - GATEWAY_PASSPHRASE=unibot
+    volumes:
+      - ./hb_ssl/certs:/root/gateway/certs
+      - ./hb_ssl/wallet:/root/gateway/conf/wallet
