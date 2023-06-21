@@ -10,6 +10,7 @@ package-lock.json
 /coverage
 **/.DS_Store
 **/gateway_files
+hb_ssl/certs/*.pem
 
 # VSCode
 .vscode/
