@@ -1,7 +1,7 @@
 import logging
 import http.client
 import ssl
-from config.certs import key_file, certificate_file, certificate_secret, host
+from config.certs import key_file, certificate_file, certificate_secret, host, port
 
 
 def init_connection():
@@ -11,5 +11,5 @@ def init_connection():
     context.load_cert_chain(keyfile=key_file, certfile=certificate_file, password=certificate_secret)
 
     # Create a connection to submit HTTP requests
-    connection = http.client.HTTPSConnection(host, port=15888, context=context)
+    connection = http.client.HTTPSConnection(host, port=port, context=context)
     return connection

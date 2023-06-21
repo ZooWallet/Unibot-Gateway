@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 import logging
 import json
 from config.api_help import operations_payload_template, operations_url, request_headers
