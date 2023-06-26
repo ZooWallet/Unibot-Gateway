@@ -11,6 +11,7 @@ package-lock.json
 **/.DS_Store
 **/gateway_files
 hb_ssl/certs/*.pem
+*.pyc
 
 # VSCode
 .vscode/
