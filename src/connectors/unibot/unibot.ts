@@ -191,10 +191,16 @@ export class Unibot implements Unibotish {
       new Decimal(consultPrice.toString())
     );
     let decimalBase = new Decimal(1);
-    if (wantDecimals != borrowDecimals) {
+    if (wantDecimals > borrowDecimals) {
       decimalBase = new Decimal(10).pow(
         new Decimal(wantDecimals.toString()).sub(
           new Decimal(borrowDecimals.toString())
+        )
+      );
+    } else if (wantDecimals < borrowDecimals) {
+      decimalBase = new Decimal(10).pow(
+        new Decimal(borrowDecimals.toString()).sub(
+          new Decimal(wantDecimals.toString())
         )
       );
     }
