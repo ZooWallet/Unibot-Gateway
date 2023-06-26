@@ -292,7 +292,11 @@ export class Unibot implements Unibotish {
       borrowDecimals,
       wantTokenIsToken0
     );
-    amount = BigNumber.from(amount).mul(BigNumber.from(10).pow(wantDecimals));
+    const dAmount = new Decimal(amount.toString());
+    const dWantDecimals = new Decimal(10).pow(
+      new Decimal(wantDecimals.toString())
+    );
+    const wantAmount = dAmount.mul(dWantDecimals);
     const wantTokenBalance = await balanceVault.callStatic.getAccountBalance(
       wallet.address,
       wantToken
@@ -317,7 +321,7 @@ export class Unibot implements Unibotish {
     const estimateBuy = {
       tick: consultPrice,
       estimatePrice,
-      wantAmount: amount,
+      wantAmount,
       balance: wantTokenBalance,
       stopLossUpper,
       stopLossLower,
