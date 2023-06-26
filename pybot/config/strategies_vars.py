@@ -25,5 +25,6 @@ tick_range = 1000
 earn_percent = Decimal('1')
 # also keep loss of percent with the same ratio of earn_percent (stopLoss)
 # when enable this, when position loss amount equals n percent of open amount
-# will trigger close position transaction
+# will trigger close position transaction.
+# suggest enabling it for hedge strategy
 stop_loss_with_same_earn_percent = True
