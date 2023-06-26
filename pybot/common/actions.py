@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 import logging
 import json
-from config.api_help import operations_payload_template, operations_url, request_headers
+from config.api_help import operations_url, request_headers
 from common.conn import init_connection
 
 
@@ -12,9 +12,11 @@ def check_conn(connection):
     return connection
 
 
-def estimate_buy(connection=None):
+def estimate_buy(connection=None, payload=None):
     connection = check_conn(connection)
-    payload = operations_payload_template['estimate_buy']
+    if payload is None:
+        logging.error(f'estimate_buy: missing payload <{payload}>')
+        return {}
     request_url = operations_url['estimate_buy']
     connection.request(method="POST", url=request_url, headers=request_headers, body=json.dumps(payload))
     # Print the HTTP response from the IOT service endpoint
@@ -24,14 +26,11 @@ def estimate_buy(connection=None):
     return json.loads(data)
 
 
-def open_position(connection=None, wantTokenAmount=0, spotPriceTick=0, stopLossUpperPriceTick=0, stopLossLowerPriceTick=0, tickRange=0):
+def open_position(connection=None, payload=None):
     connection = check_conn(connection)
-    payload = operations_payload_template['open_position']
-    payload['wantTokenAmount'] = wantTokenAmount
-    payload['spotPriceTick'] = spotPriceTick
-    payload['stopLossUpperPriceTick'] = stopLossUpperPriceTick
-    payload['stopLossLowerPriceTick'] = stopLossLowerPriceTick
-    payload['tickRange'] = tickRange
+    if payload is None:
+        logging.error(f'open_position: missing payload <{payload}>')
+        return {}
     # print(json.dumps(payload))
     request_url = operations_url['open_position']
     connection.request(method="POST", url=request_url, headers=request_headers, body=json.dumps(payload))
@@ -42,11 +41,12 @@ def open_position(connection=None, wantTokenAmount=0, spotPriceTick=0, stopLossU
     return json.loads(data)
 
 
-def estimate_sell(connection=None, positionId=""):
+def estimate_sell(connection=None, payload=None):
     connection = check_conn(connection)
-    payload = operations_payload_template['estimate_sell']
+    if payload is None:
+        logging.error(f'estimate_sell: missing payload <{payload}>')
+        return {}
     request_url = operations_url['estimate_sell']
-    payload['positionId'] = positionId
     connection.request(method="POST", url=request_url, headers=request_headers, body=json.dumps(payload))
     # Print the HTTP response from the IOT service endpoint
     response = connection.getresponse()
@@ -55,11 +55,11 @@ def estimate_sell(connection=None, positionId=""):
     return json.loads(data)
 
 
-def close_position(connection=None, positionId="", spotPriceTick=0):
+def close_position(connection=None, payload=None):
     connection = check_conn(connection)
-    payload = operations_payload_template['close_position']
-    payload['spotPriceTick'] = spotPriceTick
-    payload['positionId'] = positionId
+    if payload is None:
+        logging.error(f'close_position: missing payload <{payload}>')
+        return {}
     # print(json.dumps(payload))
     request_url = operations_url['close_position']
     connection.request(method="POST", url=request_url, headers=request_headers, body=json.dumps(payload))
