@@ -2,6 +2,7 @@ import logging
 import errno
 import time
 from decimal import Decimal
+from config.account import proof
 from config.api_help_buy import get_estimate_buy, get_open_position
 from config.api_help_sell import get_estimate_sell, get_close_position
 from config.strategies_vars import try_open_price, put_all_asset, tick_range, earn_percent, stop_loss_with_same_earn_percent
@@ -35,6 +36,7 @@ def main():
                 stopLossUpperPriceTick=p1["stopLossUpper"],
                 stopLossLowerPriceTick=p1["stopLossLower"],
                 tickRange=tick_range,
+                proof=proof,
             )
         )
         logging.info(f'open_position: {o}')
@@ -60,7 +62,8 @@ def main():
                 connection=connection,
                 payload=get_close_position(
                     positionId=p2["positionId"],
-                    spotPriceTick=p2["tick"]
+                    spotPriceTick=p2["tick"],
+                    proof=proof,
                 ),
             )
             logging.info(f'close_position: {resp}')

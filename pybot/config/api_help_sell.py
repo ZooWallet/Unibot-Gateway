@@ -15,7 +15,7 @@ def get_estimate_sell(network=None, address=None, pair=None, positionId=None):
 
 
 def get_close_position(network=None, address=None, pair=None, positionId=None, spotPriceTick=None,
-                       slippage=None):
+                       slippage=None, proof=None):
     body = operations_payload_template["close_position"]
     if network is not None:
         body["network"] = network
@@ -29,5 +29,6 @@ def get_close_position(network=None, address=None, pair=None, positionId=None, s
         body["spotPriceTick"] = spotPriceTick
     if slippage is not None:
         body["slippage"] = slippage
+    if proof is not None:
+        body["proof"] = proof
     return body
-

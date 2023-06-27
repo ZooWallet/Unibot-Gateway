@@ -37,6 +37,7 @@ operations_payload_template = {
         "stopLossUpperPriceTick": 0,
         "stopLossLowerPriceTick": 0,
         "tickRange": 0,
+        "proof": ['0x0000000000000000000000000000000000000000000000000000000000000000'],
     },
     "estimate_sell": {
         "network": network,
@@ -54,6 +55,7 @@ operations_payload_template = {
         "address": address,
         "positionId": "",
         "spotPriceTick": 0,
-        "slippage": slippage
+        "slippage": slippage,
+        "proof": ['0x0000000000000000000000000000000000000000000000000000000000000000']
     }
 }

@@ -18,7 +18,7 @@ def get_estimate_buy(network=None, address=None, pair=None, amount=None, stopLos
 
 def get_open_position(network=None, address=None, pair=None, wantTokenAmount=None, borrowRatio=None, spotPriceTick=None,
                       slippage=None, reserveRatio=None, stopLossUpperPriceTick=None, stopLossLowerPriceTick=None,
-                      tickRange=None):
+                      tickRange=None, proof=None):
     body = operations_payload_template["open_position"]
     if network is not None:
         body["network"] = network
@@ -42,4 +42,6 @@ def get_open_position(network=None, address=None, pair=None, wantTokenAmount=Non
         body["stopLossLowerPriceTick"] = stopLossLowerPriceTick
     if tickRange is not None:
         body["tickRange"] = tickRange
+    if proof is not None:
+        body["proof"] = proof
     return body
