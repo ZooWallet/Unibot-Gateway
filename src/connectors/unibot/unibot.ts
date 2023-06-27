@@ -389,16 +389,33 @@ export class Unibot implements Unibotish {
       positionInfo: undefined,
       positionId: BigNumber.from(0),
       defaultProof,
+      pendingRewardTokenAmount: BigNumber.from(0),
     };
     if (positionId) {
-      const factoryAddr = this._config.contractAddress(this._network, pair);
-      const aggregator = this._config.getAggregator(this._network, this.chain);
-      const positionInfo: any = await aggregator.getAllPositionInfo(
-        factoryAddr,
-        positionId,
-        BigNumber.from(1)
-      );
-      estimateSell = { ...estimateSell, positionInfo, positionId };
+      try {
+        const factoryAddr = this._config.contractAddress(this._network, pair);
+        const aggregator = this._config.getAggregator(
+          this._network,
+          this.chain
+        );
+        const positionInfo: any = await aggregator.getAllPositionInfo(
+          factoryAddr,
+          positionId,
+          BigNumber.from(1)
+        );
+        estimateSell = { ...estimateSell, positionInfo, positionId };
+      } catch (e) {
+        console.error(e);
+      }
+    }
+    if (this._network == 'bsc') {
+      try {
+        const helper = this._config.getHelper(this._network, this.chain);
+        estimateSell['pendingRewardTokenAmount'] =
+          await helper.getPendingRewardTokenAmount(positionId);
+      } catch (e) {
+        console.error(e);
+      }
     }
     return estimateSell;
   }

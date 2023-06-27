@@ -6,6 +6,7 @@ import { Polygon } from '../../chains/polygon/polygon';
 import unibotFactoryAbi from './unibot_factory_abi.json';
 import unibotAggregator from './unibot_aggregator.json';
 import unibotBalanceVault from './unibot_balance_vault.json';
+import unibotHelperAbi from './unibot_helper_abi.json';
 
 export namespace UnibotConfig {
   export interface ExchangeConfig {
@@ -23,6 +24,10 @@ export namespace UnibotConfig {
       chain: Ethereum | Polygon | Wallet
     ) => Contract;
     getAggregator: (
+      network: string,
+      chain: Ethereum | Polygon | Wallet
+    ) => Contract;
+    getHelper: (
       network: string,
       chain: Ethereum | Polygon | Wallet
     ) => Contract;
@@ -60,6 +65,11 @@ export namespace UnibotConfig {
       const qkey = `unibot.contractAddresses.${network}.aggregator`;
       const contractAddr = ConfigManagerV2.getInstance().get(qkey);
       return new Contract(contractAddr, unibotAggregator.abi, chain.provider);
+    },
+    getHelper: (network: string, chain: Ethereum | Polygon | Wallet) => {
+      const qkey = `unibot.contractAddresses.${network}.helper`;
+      const helperAddr = ConfigManagerV2.getInstance().get(qkey);
+      return new Contract(helperAddr, unibotHelperAbi.abi, chain.provider);
     },
   };
 }

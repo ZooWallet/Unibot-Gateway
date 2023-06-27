@@ -93,6 +93,10 @@ export function estimateSellTradeFormatOut(payload: any) {
   if ('positionId' in payload) {
     payload.positionId = payload.positionId.toString();
   }
+  if ('pendingRewardTokenAmount' in payload) {
+    payload.pendingRewardTokenAmount =
+      payload.pendingRewardTokenAmount.toString();
+  }
   if ('positionIds' in payload && payload['positionIds']) {
     const positionIds = payload['positionIds'].map((element: any) => {
       return element.toString();
