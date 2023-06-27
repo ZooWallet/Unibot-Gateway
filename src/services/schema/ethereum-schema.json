@@ -13,7 +13,9 @@
             "tokenListType": { "type": "string" },
             "tokenListSource": { "type": "string" },
             "nativeCurrencySymbol": { "type": "string" },
-            "gasPriceRefreshInterval": { "type": "number" }
+            "gasPriceRefreshInterval": { "type": "number" },
+            "manualGasPrice": {"type": "number"},
+            "gasLimitTransaction": { "type": "integer" }
           },
           "required": [
             "chainID",
