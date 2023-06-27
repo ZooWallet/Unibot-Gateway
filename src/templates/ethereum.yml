@@ -40,10 +40,10 @@ networks:
     nativeCurrencySymbol: MATIC
   bsc:
     chainID: 56
-    nodeURL: https://bsc-dataseed1.binance.org
+    nodeURL: https://rpc.ankr.com/bsc
     tokenListType: FILE
     tokenListSource: src/chains/ethereum/erc20_tokens_bsc.json
-    nativeCurrencySymbol: MATIC
+    nativeCurrencySymbol: BNB
 
 # if you use the gas assumptions below, your wallet needs >0.1 ETH balance for gas
 gasLimitTransaction: 3000000
