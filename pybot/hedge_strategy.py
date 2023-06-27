@@ -97,10 +97,10 @@ def main():
 
             condition_match_p2 = target_earn_value < pnl
             if stop_loss_with_same_earn_percent:
-                condition_match = target_earn_value < abs(pnl)
+                condition_match_p2 = target_earn_value < abs(pnl)
             logging.info(f'condition_match: {condition_match_p2}, stop_loss_with_same_earn_percent: {stop_loss_with_same_earn_percent}')
 
-        if condition_match or condition_match_p2:
+        if condition_match_p1 or condition_match_p2:
             if len(p1_positionIds) > 0:
                 resp = close_position(
                     connection=connection,
