@@ -31,6 +31,11 @@ contractAddresses:
         wantToken: "0xff970a61a04b1ca14834a43f5de4533ebddb5cc8"
         borrowToken: "0x912ce59144191c1204e64559fe8253a0e49e6548"
         isWantToken0: false
+      ARB-USDC-0_3%:
+        factory: "0x247B33BADbB44633522C00772384038816675B3c"
+        wantToken: "0x912ce59144191c1204e64559fe8253a0e49e6548"
+        borrowToken: "0xff970a61a04b1ca14834a43f5de4533ebddb5cc8"
+        isWantToken0: true
       ARB-WETH-0_05%:
         factory: "0x177b7d394a9b28dA8ccC32A7Ce79CB3D7fAD836A"
         wantToken: "0x912ce59144191c1204e64559fe8253a0e49e6548"
