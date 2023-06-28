@@ -51,17 +51,17 @@ export function getEthereumConfig(
       chainName + '.networks.' + network + '.nativeCurrencySymbol'
     ),
     manualGasPrice: ConfigManagerV2.getInstance().get(
-      chainName + `.${network}` + '.manualGasPrice'
+      chainName + '.networks.' + network + '.manualGasPrice'
     )
       ? ConfigManagerV2.getInstance().get(
-          chainName + `.${network}` + '.manualGasPrice'
+          chainName + '.networks.' + network + '.manualGasPrice'
         )
       : ConfigManagerV2.getInstance().get(chainName + '.manualGasPrice'),
     gasLimitTransaction: ConfigManagerV2.getInstance().get(
-      chainName + `.${network}` + '.gasLimitTransaction'
+      chainName + '.networks.' + network + '.gasLimitTransaction'
     )
       ? ConfigManagerV2.getInstance().get(
-          chainName + `.${network}` + '.gasLimitTransaction'
+          chainName + '.networks.' + network + '.gasLimitTransaction'
         )
       : ConfigManagerV2.getInstance().get(chainName + '.gasLimitTransaction'),
   };

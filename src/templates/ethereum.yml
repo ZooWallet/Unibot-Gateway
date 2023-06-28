@@ -6,7 +6,7 @@ networks:
     tokenListSource: src/chains/ethereum/arbitrum_one_tokens.json
     nativeCurrencySymbol: ETH
     gasPriceRefreshInterval: 60
-    manualGasPrice: 0.2
+    manualGasPrice: 0.1
   arbitrum_rinkeby:
     chainID: 421611
     nodeURL: https://arbitrum-rinkeby.infura.io/v3
@@ -28,6 +28,7 @@ networks:
     tokenListSource: src/chains/ethereum/optimism_tokens.json
     nativeCurrencySymbol: OETH
     gasPriceRefreshInterval: 60
+    manualGasPrice: 0.003
   goerli:
     chainID: 5
     nodeURL: https://rpc.ankr.com/eth_goerli
