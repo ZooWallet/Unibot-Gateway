@@ -548,7 +548,7 @@ export class Unibot implements Unibotish {
     const staticCallResponse = await factoryContract.callStatic[
       result.methodName
     ](...result.args, {
-      // gasPrice: (gasPrice * 1e9).toFixed(0),
+      gasPrice: (gasPrice * 1e9).toFixed(0),
       gasLimit: gasLimit.toFixed(0),
       value: result.value,
       nonce: nonce + 1,
@@ -558,7 +558,7 @@ export class Unibot implements Unibotish {
       const tx: ContractTransaction = await factoryContract[result.methodName](
         ...result.args,
         {
-          // gasPrice: (gasPrice * 1e9).toFixed(0),
+          gasPrice: (gasPrice * 1e9).toFixed(0),
           gasLimit: gasLimit.toFixed(0),
           value: result.value,
           nonce: nonce + 1,
