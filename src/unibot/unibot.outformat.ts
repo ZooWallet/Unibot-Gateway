@@ -141,6 +141,9 @@ export function estimateSellTradeFormatOut(payload: any) {
       .sub(positionInfoObj.debtValueMeasuredInWantToken)
       .add(positionInfoObj.position.reserveAmountAtStart);
 
+    positionInfoObj.positionValueMeasuredInWantToken = positionInfo[3].toString();
+    positionInfoObj.debtValueMeasuredInWantToken = positionInfo[4].toString();
+
     payload['positionInfo'] = positionInfoObj;
   }
   return payload;
