@@ -5,7 +5,7 @@ from decimal import Decimal
 from config.api_help_buy import get_estimate_buy, get_open_position
 from config.api_help_sell import get_estimate_sell, get_close_position
 from config.market import pair, pair2
-from config.strategies_vars import try_open_price, open_amount, tick_range, earn_percent, stop_loss_with_same_earn_percent
+from config.strategies_vars import try_open_price, open_amount, tick_range, earn_percent, loss_percent, enable_stop_loss_percent
 from common.conn import init_connection
 from common.actions import estimate_buy, open_position, estimate_sell, close_position
 
@@ -77,8 +77,7 @@ def main():
             pnl = Decimal(d1["positionInfo"]["PNL"])
             want_at_start = Decimal(d1["positionInfo"]["position"]["wantTokenAmountAtStart"])
             pnlp_p1 = pnl / (want_at_start / 100)
-            target_earn_value = want_at_start / 100 * earn_percent
-            logging.info(f'{pair} want_at_start: {want_at_start}, pnl: {pnl} target_earn_value: {target_earn_value}')
+            logging.info(f'{pair} want_at_start: {want_at_start}, pnl: {pnl}')
 
         if len(p2_positionIds) > 0:
             d2 = estimate_sell(
@@ -89,14 +88,17 @@ def main():
             pnl = Decimal(d2["positionInfo"]["PNL"])
             want_at_start = Decimal(d2["positionInfo"]["position"]["wantTokenAmountAtStart"])
             pnlp_p2 = pnl / (want_at_start / 100)
-            target_earn_value = want_at_start / 100 * earn_percent
-            logging.info(f'{pair2} want_at_start: {want_at_start}, pnl: {pnl} target_earn_value: {target_earn_value}')
+            logging.info(f'{pair2} want_at_start: {want_at_start}, pnl: {pnl}')
 
-        # avoiding missing pnl information issue
+        # avoiding lack pnl information issue
         if pnlp_p1 == Decimal(0) or pnlp_p2 == Decimal(0) and (len(p1_positionIds) > 0 and len(p2_positionIds) > 0):
             return True
-        logging.info(f'p1_percent: {pnlp_p1} p2_percent: {pnlp_p2} profit_percent: {pnlp_p1 + pnlp_p2} target: {earn_percent}')
-        if pnlp_p1 + pnlp_p2 > earn_percent:
+        condition_match = pnlp_p1 + pnlp_p2 > earn_percent
+        logging.info(f'p1_percent: {pnlp_p1} p2_percent: {pnlp_p2} profit_percent: {pnlp_p1 + pnlp_p2} earn_percent: {earn_percent} condition_match: {condition_match}')
+        if enable_stop_loss_percent and (pnlp_p1 + pnlp_p2) < Decimal(0):
+            condition_match = abs(pnlp_p1 + pnlp_p2) > loss_percent
+            logging.info(f'enable_stop_loss_percent: {enable_stop_loss_percent} loss_percent: {pnlp_p1 + pnlp_p2} loss_percent: {loss_percent} condition_match: {condition_match}')
+        if condition_match:
             if len(p1_positionIds) > 0:
                 resp = close_position(
                     connection=connection,
