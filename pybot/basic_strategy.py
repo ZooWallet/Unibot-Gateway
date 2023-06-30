@@ -5,7 +5,7 @@ from decimal import Decimal
 from config.account import proof
 from config.api_help_buy import get_estimate_buy, get_open_position
 from config.api_help_sell import get_estimate_sell, get_close_position
-from config.strategies_vars import try_open_price, put_all_asset, tick_range, earn_percent, loss_percent, enable_stop_loss_percent
+from config.strategies_vars import try_open_price, put_all_asset, tick_range, earn_percent, loss_percent, enable_loss_percent
 from common.conn import init_connection
 from common.actions import estimate_buy, open_position, estimate_sell, close_position
 
@@ -58,10 +58,10 @@ def main():
         logging.info(f'want_at_start: {want_at_start} pnl: {pnl} target_earn_value: {target_earn_value} '
                      f'earn_percent: {earn_percent} condition_match: {condition_match}')
         # stop loss
-        if enable_stop_loss_percent and pnl < Decimal(0):
+        if enable_loss_percent and pnl < Decimal(0):
             target_loss_value = want_at_start / 100 * loss_percent
             condition_match = target_loss_value < abs(pnl)
-            logging.info(f'enable_stop_loss_percent: {enable_stop_loss_percent} '
+            logging.info(f'enable_loss_percent: {enable_loss_percent} '
                          f'want_at_start: {want_at_start} pnl: {pnl} target_loss_value: {target_loss_value} '
                          f'loss_percent: {loss_percent} condition_match: {condition_match}')
         if condition_match:

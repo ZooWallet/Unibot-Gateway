@@ -26,4 +26,5 @@ earn_percent = Decimal('1')
 # close position condition when PNL negative ratio reach n percent of open amount (takeProfit)
 # will trigger close position transaction
 loss_percent = Decimal('1')
-enable_stop_loss_percent = True
+# enable functionally for loss_percent check
+enable_loss_percent = True

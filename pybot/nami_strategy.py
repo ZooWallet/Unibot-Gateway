@@ -7,7 +7,7 @@ from decimal import Decimal
 from config.account import proof
 from config.api_help_buy import get_estimate_buy, get_open_position
 from config.api_help_sell import get_estimate_sell, get_close_position
-from config.strategies_vars import try_open_price, put_all_asset, tick_range, stop_loss_percent, enable_stop_loss_percent
+from config.strategies_vars import try_open_price, put_all_asset, tick_range, loss_percent, enable_loss_percent
 from config.nami_strategy_vars import repay_swap_ratio
 from common.conn import init_connection
 from common.actions import estimate_buy, open_position, estimate_sell, close_position
@@ -74,12 +74,12 @@ def main():
                      f'condition_match: {condition_match} ')
         pnl = Decimal(p2["positionInfo"]["PNL"])
         want_at_start = Decimal(p2["positionInfo"]["position"]["wantTokenAmountAtStart"])
-        target_stop_loss_value = want_at_start / 100 * stop_loss_percent
+        target_stop_loss_value = want_at_start / 100 * loss_percent
         logging.info(f'want_at_start: {want_at_start} pnl: {pnl}')
-        if not condition_match and enable_stop_loss_percent and pnl < Decimal(0):
+        if not condition_match and enable_loss_percent and pnl < Decimal(0):
             condition_match = target_stop_loss_value < abs(pnl)
             logging.info(
-                f'target_stop_loss_value: {target_stop_loss_value} enable_stop_loss_percent: {enable_stop_loss_percent} '
+                f'loss_percent: {loss_percent} target_stop_loss_value: {target_stop_loss_value} enable_loss_percent: {enable_loss_percent} '
                 f'condition_match: {condition_match} ')
         if condition_match:
             resp = close_position(
