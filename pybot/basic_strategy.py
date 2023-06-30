@@ -23,6 +23,7 @@ def main():
     p2 = estimate_sell(payload=get_estimate_sell())
     # print(p2)
     if len(p2["positionIds"]) == 0:
+        logging.info(f'limit order price: {try_open_price}')
         # estimate buy
         p1 = estimate_buy(connection=connection, payload=get_estimate_buy())
         logging.info(f'estimate_buy: {p1}')

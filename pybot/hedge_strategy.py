@@ -39,31 +39,33 @@ def main():
     want_amount_p2 = p2['wantAmount']
     p2_positionIds = p2['positionIds']
 
-    if len(p1["positionIds"]) == 0 and len(p2["positionIds"]) == 0 and d_estimatePrice > Decimal(try_open_price):
-        p1o = open_position(
-            connection=connection,
-            payload=get_open_position(
-                pair=pair,
-                wantTokenAmount=want_amount,
-                spotPriceTick=p1["tick"],
-                stopLossUpperPriceTick=p1["stopLossUpper"],
-                stopLossLowerPriceTick=p1["stopLossLower"],
-                tickRange=tick_range,
+    if len(p1["positionIds"]) == 0 and len(p2["positionIds"]) == 0:
+        logging.info(f'limit order price: {try_open_price}')
+        if d_estimatePrice > Decimal(try_open_price):
+            p1o = open_position(
+                connection=connection,
+                payload=get_open_position(
+                    pair=pair,
+                    wantTokenAmount=want_amount,
+                    spotPriceTick=p1["tick"],
+                    stopLossUpperPriceTick=p1["stopLossUpper"],
+                    stopLossLowerPriceTick=p1["stopLossLower"],
+                    tickRange=tick_range,
+                )
             )
-        )
-        logging.info(f'{pair} open_position: {p1o}')
-        p2o = open_position(
-            connection=connection,
-            payload=get_open_position(
-                pair=pair2,
-                wantTokenAmount=want_amount_p2,
-                spotPriceTick=p2["tick"],
-                stopLossUpperPriceTick=p2["stopLossUpper"],
-                stopLossLowerPriceTick=p2["stopLossLower"],
-                tickRange=tick_range,
+            logging.info(f'{pair} open_position: {p1o}')
+            p2o = open_position(
+                connection=connection,
+                payload=get_open_position(
+                    pair=pair2,
+                    wantTokenAmount=want_amount_p2,
+                    spotPriceTick=p2["tick"],
+                    stopLossUpperPriceTick=p2["stopLossUpper"],
+                    stopLossLowerPriceTick=p2["stopLossLower"],
+                    tickRange=tick_range,
+                )
             )
-        )
-        logging.info(f'{pair2} open_position: {p2o}')
+            logging.info(f'{pair2} open_position: {p2o}')
 
     if len(p1_positionIds) > 0 or len(p2_positionIds) > 0:
         pnlp_p1 = Decimal(0)
