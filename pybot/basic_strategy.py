@@ -20,30 +20,30 @@ connection = init_connection()
 
 def main():
     connection.close()
-    # estimate buy
-    p1 = estimate_buy(connection=connection, payload=get_estimate_buy())
-    logging.info(f'estimate_buy: {p1}')
-    d_estimatePrice = Decimal(p1["estimatePrice"])
-    want_amount = p1['wantAmount']
-    if put_all_asset:
-        want_amount = p1['balance']
-    if len(p1["positionIds"]) == 0 and d_estimatePrice > Decimal(try_open_price):
-        o = open_position(
-            connection=connection,
-            payload=get_open_position(
-                wantTokenAmount=want_amount,
-                spotPriceTick=p1["tick"],
-                stopLossUpperPriceTick=p1["stopLossUpper"],
-                stopLossLowerPriceTick=p1["stopLossLower"],
-                tickRange=tick_range,
-                proof=proof,
-            )
-        )
-        logging.info(f'open_position: {o}')
-
     p2 = estimate_sell(payload=get_estimate_sell())
     # print(p2)
-    if len(p2["positionIds"]) > 0:
+    if len(p2["positionIds"]) == 0:
+        # estimate buy
+        p1 = estimate_buy(connection=connection, payload=get_estimate_buy())
+        logging.info(f'estimate_buy: {p1}')
+        d_estimatePrice = Decimal(p1["estimatePrice"])
+        want_amount = p1['wantAmount']
+        if put_all_asset:
+            want_amount = p1['balance']
+        if len(p1["positionIds"]) == 0 and d_estimatePrice > Decimal(try_open_price):
+            o = open_position(
+                connection=connection,
+                payload=get_open_position(
+                    wantTokenAmount=want_amount,
+                    spotPriceTick=p1["tick"],
+                    stopLossUpperPriceTick=p1["stopLossUpper"],
+                    stopLossLowerPriceTick=p1["stopLossLower"],
+                    tickRange=tick_range,
+                    proof=proof,
+                )
+            )
+            logging.info(f'open_position: {o}')
+    else:
         p2 = estimate_sell(
             connection=connection,
             payload=get_estimate_sell(positionId=p2["positionIds"][0]),
