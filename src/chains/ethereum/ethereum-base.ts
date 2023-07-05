@@ -36,6 +36,7 @@ export class EthereumBase {
   private _provider;
   protected tokenList: TokenInfo[] = [];
   private _tokenMap: Record<string, TokenInfo> = {};
+  private _tokenMapByAddr: Record<string, TokenInfo> = {};
   // there are async values set in the constructor
   private _ready: boolean = false;
   private _initializing: boolean = false;
@@ -143,7 +144,8 @@ export class EthereumBase {
     );
     if (this.tokenList) {
       this.tokenList.forEach(
-        (token: TokenInfo) => (this._tokenMap[token.symbol] = token)
+        (token: TokenInfo) => (this._tokenMap[token.symbol] = token),
+        (token: TokenInfo) => (this._tokenMapByAddr[token.address] = token)
       );
     }
   }

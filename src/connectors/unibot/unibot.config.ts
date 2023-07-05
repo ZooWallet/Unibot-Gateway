@@ -31,6 +31,9 @@ export namespace UnibotConfig {
       network: string,
       chain: Ethereum | Polygon | Wallet
     ) => Contract;
+    getWantToken: (network: string, pair: string) => string;
+    getBorrowToken: (network: string, pair: string) => string;
+    getIsWant0: (network: string, pair: string) => boolean;
   }
 
   export const config: ExchangeConfig = {
@@ -70,6 +73,24 @@ export namespace UnibotConfig {
       const qkey = `unibot.contractAddresses.${network}.helper`;
       const helperAddr = ConfigManagerV2.getInstance().get(qkey);
       return new Contract(helperAddr, unibotHelperAbi.abi, chain.provider);
+    },
+    getWantToken: (network: string, pair: string) => {
+      const ans: string = ConfigManagerV2.getInstance().get(
+        `unibot.contractAddresses.${network}.pairs.${pair}.wantToken`
+      );
+      return ans;
+    },
+    getBorrowToken: (network: string, pair: string) => {
+      const ans: string = ConfigManagerV2.getInstance().get(
+        `unibot.contractAddresses.${network}.pairs.${pair}.borrowToken`
+      );
+      return ans;
+    },
+    getIsWant0: (network: string, pair: string) => {
+      const ans: boolean = ConfigManagerV2.getInstance().get(
+        `unibot.contractAddresses.${network}.pairs.${pair}.isWantToken0`
+      );
+      return ans;
     },
   };
 }
