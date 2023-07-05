@@ -353,8 +353,8 @@ export class Unibot implements Unibotish {
       this._network,
       this.chain
     );
-    const wantToken = await factoryContract.callStatic.wantToken();
-    const borrowToken = await factoryContract.callStatic.borrowToken();
+    const wantToken = await this._config.getWantToken(this._network, pair);
+    const borrowToken = await this._config.getBorrowToken(this._network, pair);
     console.log(`wallet.address: ${wallet.address}, wantToken: ${wantToken}`);
     const wantTokenBalance = await balanceVault.callStatic.getAccountBalance(
       wallet.address,
@@ -390,6 +390,9 @@ export class Unibot implements Unibotish {
       positionId: BigNumber.from(0),
       defaultProof,
       pendingRewardTokenAmount: BigNumber.from(0),
+      wantDecimals,
+      borrowDecimals,
+      isWantToken0: await this._config.getIsWant0(this._network, pair),
     };
     if (positionId) {
       try {
