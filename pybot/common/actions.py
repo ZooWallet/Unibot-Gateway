@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+from decimal import Decimal
 import logging
 import json
 from config.api_help import operations_url, request_headers
@@ -52,7 +53,22 @@ def estimate_sell(connection=None, payload=None):
     response = connection.getresponse()
     logging.info(f'estimate_sell: {response.status} {response.reason}')
     data = response.read()
-    return json.loads(data)
+    encodeObj = json.loads(data)
+    encodeObj['computeEstimatePrice'] = Decimal(encodeObj['estimatePrice'])
+    if 'isWantToken0' in encodeObj:
+        if encodeObj['isWantToken0']:
+            encodeObj['computeEstimatePrice'] = Decimal(1) / encodeObj['computeEstimatePrice']
+    if 'wantDecimals' in encodeObj and 'borrowDecimals' in encodeObj:
+        dWantDecimals = Decimal(encodeObj['wantDecimals'])
+        dBorrowDecimals = Decimal(encodeObj['borrowDecimals'])
+        if dWantDecimals != dBorrowDecimals:
+            rawEstimatePrice = encodeObj['computeEstimatePrice']
+            encodeObj['computeEstimatePriceWithOutDecimal'] = encodeObj['computeEstimatePrice']
+            diffDecimal = dWantDecimals - dBorrowDecimals
+            powBase = Decimal(10)
+            rawEstimatePrice = rawEstimatePrice * (powBase ** diffDecimal)
+            encodeObj['computeEstimatePrice'] = rawEstimatePrice
+    return encodeObj
 
 
 def close_position(connection=None, payload=None):

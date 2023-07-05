@@ -61,7 +61,7 @@ def main():
             payload=get_estimate_sell(positionId=p2["positionIds"][0]),
         )
         logging.info(f'estimate_sell: {p2}')
-        d_estimatePrice = Decimal(p2["estimatePrice"])
+        d_estimatePrice = Decimal(p2["computeEstimatePrice"])
         dvlmit = Decimal(p2["positionInfo"]["debtValueMeasuredInWantToken"])
         positionBorrowAmount = Decimal(p2["positionInfo"]["positionTokenAmount"]["borrowTokenAmount"])
         borrowLendingAmount = dvlmit / d_estimatePrice
